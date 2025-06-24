@@ -1,4 +1,4 @@
-# ODMS Admin Panel
+# Radiant Digital Doctor Quiz
 
 ## Technologies
 
