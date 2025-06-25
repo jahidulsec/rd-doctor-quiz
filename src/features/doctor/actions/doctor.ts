@@ -17,6 +17,11 @@ const addSchema = z.object({
   mio_id: z.string().optional(),
 });
 
+const loginSchema = z.object({
+  password: z.string().min(6, { message: "At least 6 characters" }),
+  mobile: z.string().regex(phoneRegex, { message: "Invalid" }),
+});
+
 export const addDoctor = async (prevState: unknown, formData: FormData) => {
   const modifiedFormData = Object.fromEntries(formData.entries());
 
@@ -116,6 +121,61 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
       }
     }
 
+    return {
+      error: null,
+      success: null,
+      toast: (error as any).message,
+      values: modifiedFormData,
+    };
+  }
+};
+
+export const loginDoctor = async (prevState: unknown, formData: FormData) => {
+  const modifiedFormData = Object.fromEntries(formData.entries());
+
+  try {
+    const result = loginSchema.safeParse(modifiedFormData);
+
+    if (result.success === false) {
+      return {
+        error: result.error.formErrors.fieldErrors,
+        success: null,
+        toast: null,
+        values: modifiedFormData,
+      };
+    }
+
+    const data = result.data;
+
+    // check doctor
+    const doctor = await db.doctor.findUnique({
+      where: {
+        mobile: data.mobile,
+      },
+    });
+
+    if (!doctor) {
+      throw { message: "Doctor does not exists" };
+    }
+
+    if (doctor.password !== data.password) {
+      throw { message: "Incorrect Password" };
+    }
+
+    // create session
+    await createSession({
+      full_name: doctor.full_name,
+      role: "doctor",
+      id: doctor.mobile,
+    });
+
+    return {
+      error: null,
+      success: "Account is logged in successfully",
+      toast: null,
+    };
+  } catch (error) {
+    console.error(error);
     return {
       error: null,
       success: null,

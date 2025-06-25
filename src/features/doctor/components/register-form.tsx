@@ -54,6 +54,7 @@ export default function RegisterForm() {
           name="password"
           id="password"
           placeholder="Enter at least 6 characters"
+          defaultValue={data?.values?.password.toString() ?? undefined}
         />
         {data?.error && (
           <ErrorMessage message={data.error.password?.[0] ?? ""} />
