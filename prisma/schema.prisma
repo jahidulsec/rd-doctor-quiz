@@ -1,15 +1,52 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../prisma/generated/client1"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model mio {
+  zone               String @db.VarChar(100)
+  region             String @db.VarChar(100)
+  sap_territory_code String @id @db.VarChar(10)
+}
+
+model doctor {
+  id            String          @id @db.VarChar(36)
+  full_name     String          @db.VarChar(100)
+  password      String          @db.VarChar(50)
+  mio_id        String?         @db.VarChar(36)
+  image         String?         @db.VarChar(100)
+  created_at    DateTime        @default(now()) @db.DateTime(0)
+  updated_at    DateTime        @default(now()) @updatedAt @db.DateTime(0)
+  doctor_submit doctor_submit[]
+}
+
+model question {
+  id            String          @id @db.VarChar(36)
+  title         String          @db.VarChar(100)
+  option_1      String?         @db.VarChar(100)
+  option_2      String?         @db.VarChar(100)
+  option_3      String?         @db.VarChar(100)
+  option_4      String?         @db.VarChar(100)
+  answer        Int
+  created_at    DateTime        @default(now()) @db.DateTime(0)
+  updated_at    DateTime        @default(now()) @updatedAt @db.DateTime(0)
+  doctor_submit doctor_submit[]
+}
+
+model doctor_submit {
+  id          String    @id @db.VarChar(36)
+  doctor_id   String    @db.VarChar(36)
+  question_id String    @db.VarChar(36)
+  answer      Int
+  created_at  DateTime? @default(now()) @db.DateTime(0)
+  updated_at  DateTime? @default(now()) @updatedAt @db.DateTime(0)
+  doctor      doctor    @relation(fields: [doctor_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_doctor_submit_doctor")
+  question    question  @relation(fields: [question_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "fk_doctor_submit_question")
+
+  @@unique([doctor_id, question_id], map: "unique_doctor_question")
+  @@index([question_id], map: "fk_doctor_submit_question")
 }
