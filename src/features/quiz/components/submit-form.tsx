@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { question } from "@prisma/client";
-import { Check } from "lucide-react";
+import { doctor_submit, question } from "@prisma/client";
+import { Check, X } from "lucide-react";
 import React, { useActionState, useEffect } from "react";
 import { submitQuiz } from "../actions/quiz";
 import { ErrorMessage } from "@/components/text/error-message";
@@ -13,13 +13,15 @@ export default function SubmitForm({
   response,
   userId,
   id,
+  quizSubmitResponse,
 }: {
   response: question;
   userId?: string;
   id: string;
+  quizSubmitResponse?: doctor_submit;
 }) {
   const [checkedValue, setCheckedValue] = React.useState<number | undefined>(
-    undefined
+    quizSubmitResponse?.answer ?? undefined
   );
   const [data, action, isPending] = useActionState(submitQuiz, null);
 
@@ -31,6 +33,8 @@ export default function SubmitForm({
     }
   }, [data]);
 
+  const res = data?.response ?? quizSubmitResponse;
+
   return (
     <form action={action} className="my-6 flex flex-col gap-6">
       <div className="grid grid-cols-2 gap-5">
@@ -40,7 +44,6 @@ export default function SubmitForm({
           className="border-primary/15"
           onClick={() => setCheckedValue(1)}
         >
-          {checkedValue === 1 && <Check />}
           {response.option_1}
         </Button>
         <Button
@@ -49,7 +52,6 @@ export default function SubmitForm({
           className="border-primary/15"
           onClick={() => setCheckedValue(2)}
         >
-          {checkedValue === 2 && <Check />}
           {response.option_2}
         </Button>
         <Button
@@ -58,7 +60,6 @@ export default function SubmitForm({
           className="border-primary/15"
           onClick={() => setCheckedValue(3)}
         >
-          {checkedValue === 3 && <Check />}
           {response.option_3}
         </Button>
         <Button
@@ -67,7 +68,6 @@ export default function SubmitForm({
           className="border-primary/15"
           onClick={() => setCheckedValue(4)}
         >
-          {checkedValue === 4 && <Check />}
           {response.option_4}
         </Button>
       </div>
@@ -76,6 +76,7 @@ export default function SubmitForm({
         <ErrorMessage message={data.error.answer?.toString() ?? ""} />
       )}
 
+      {/* hidden inputs */}
       <input
         className="hidden"
         name="answer"
@@ -85,22 +86,22 @@ export default function SubmitForm({
       <input type="hidden" name="doctor_id" value={userId} />
       <input type="hidden" name="question_id" value={id} />
 
-      {data?.response ? (
+      {/* answer section */}
+      {res ? (
         <div className="">
           <div
             className={`flex items-center gap-3  p-4 rounded-md ${
-              data.response.answer === response.answer
+              res?.answer === response.answer
                 ? "bg-emerald-100/50"
                 : "bg-secondary/15"
             }`}
           >
-            <Check
-              className={`${
-                data.response.answer === response.answer
-                  ? "text-emerald-600"
-                  : "text-secondary"
-              }  size-4`}
-            />
+            {res?.answer === response.answer ? (
+              <Check className={`text-emerald-600 size-4`} />
+            ) : (
+              <X className={`text-secondary size-4`} />
+            )}
+
             <p className="font-semibold">
               {response.answer === 1
                 ? response.option_1
@@ -113,7 +114,7 @@ export default function SubmitForm({
                 : null}
             </p>
           </div>
-          <Button asChild>
+          <Button asChild className="mt-6">
             <Link href={`/quiz`}>Go Back</Link>
           </Button>
         </div>

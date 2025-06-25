@@ -32,3 +32,21 @@ export const getQuiz = async (id: string) => {
     return null;
   }
 };
+
+export const getQuizSubmit = async (userId: string) => {
+  try {
+    const data = await db.doctor_submit.findFirst({
+      where: {
+        question: {
+          quiz_date: getYearRange(new Date().getFullYear()),
+        },
+        doctor_id: userId,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
