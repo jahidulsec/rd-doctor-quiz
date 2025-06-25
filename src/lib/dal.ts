@@ -2,10 +2,10 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { decrypt } from "./session";
-import { JWTPayload } from "jose";
+import { AuthUser } from "@/types/auth-user";
 
 export const verifyAutuser: () => Promise<
-  JWTPayload | undefined | null
+  AuthUser | undefined | null
 > = async () => {
   try {
     const cookie = await cookies();
@@ -14,7 +14,7 @@ export const verifyAutuser: () => Promise<
 
     const user = session;
 
-    return user;
+    return user as any;
   } catch (error) {
     console.log("Failed to fetch user");
     console.error(error);

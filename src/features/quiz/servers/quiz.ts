@@ -1,0 +1,34 @@
+"use server";
+
+import { getYearRange } from "@/lib/utils";
+import db from "../../../../db/db";
+
+export const getQuizzes = async () => {
+  try {
+    const data = await db.question.findFirst({
+      where: {
+        quiz_date: getYearRange(new Date().getFullYear()),
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const getQuiz = async (id: string) => {
+  try {
+    const data = await db.question.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
