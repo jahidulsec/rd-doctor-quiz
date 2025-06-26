@@ -1,11 +1,11 @@
 import SubmitForm from "@/features/quiz/components/submit-form";
 import { getQuiz, getQuizSubmit } from "@/features/quiz/servers/quiz";
 import { verifyAutuser } from "@/lib/dal";
-import { Params } from "next/dist/server/request/params";
+import { params } from "@/types/search-params";
 import { notFound } from "next/navigation";
 import React from "react";
 
-export default async function QuizDetailsPage({ params }: { params: Params }) {
+export default async function QuizDetailsPage({ params }: { params: params }) {
   const { id } = await params;
 
   const authUser = await verifyAutuser();
