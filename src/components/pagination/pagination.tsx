@@ -11,7 +11,7 @@ import {
   PaginationPrevious,
 } from "../ui/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next-nprogress-bar";
+import { useRouter } from "@bprogress/next";
 import { range } from "@/lib/utils";
 
 function PagePagination({ limit, count }: { limit: number; count: number }) {
