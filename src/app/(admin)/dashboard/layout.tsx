@@ -7,9 +7,9 @@ export default function DashboardLayout({ children }: React.PropsWithChildren) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="">
         <NavRegister className="px-4 p-2 flex justify-between flex-wrap" />
-        <div className="px-4 p-2 flex flex-col gap-4">{children}</div>
+        <div className="px-4 p-2 flex flex-col gap-4 md:container md:mx-auto">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
