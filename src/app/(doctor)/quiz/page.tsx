@@ -1,4 +1,4 @@
-import { NoData } from "@/components/state/state";
+import { NoQuizData } from "@/components/state/state";
 import { Button } from "@/components/ui/button";
 import { getQuizSubmit, getQuizzes } from "@/features/quiz/servers/quiz";
 import { verifyAutuser } from "@/lib/dal";
@@ -20,14 +20,19 @@ export default async function QuizPage() {
 
       {response ? (
         submissionResponse ? (
-          <Button variant={'outline'} className="text-secondary border-secondary">Participated</Button>
+          <Button
+            variant={"outline"}
+            className="text-secondary border-secondary"
+          >
+            Participated
+          </Button>
         ) : (
           <Button asChild>
             <Link href={`/quiz/${response.id}`}>Participate</Link>
           </Button>
         )
       ) : (
-        <NoData />
+        <NoQuizData />
       )}
     </div>
   );

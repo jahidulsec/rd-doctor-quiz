@@ -1,13 +1,13 @@
 "use server";
 
-import { getYearRange } from "@/lib/utils";
+import { getDateRange } from "@/lib/utils";
 import db from "../../../../db/db";
 
 export const getQuizzes = async () => {
   try {
     const data = await db.question.findFirst({
       where: {
-        quiz_date: getYearRange(new Date().getFullYear()),
+        quiz_date: getDateRange(new Date()),
       },
     });
 
@@ -38,7 +38,7 @@ export const getQuizSubmit = async (userId: string) => {
     const data = await db.doctor_submit.findFirst({
       where: {
         question: {
-          quiz_date: getYearRange(new Date().getFullYear()),
+          quiz_date: getDateRange(new Date()),
         },
         doctor_id: userId,
       },

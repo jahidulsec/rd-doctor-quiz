@@ -9,10 +9,10 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "@bprogress/next/app";
 import React, { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { loginDoctor } from "../actions/doctor";
+import { loginAdmin } from "../actions/admin";
 
 export default function LoginForm() {
-  const [data, action, isPending] = useActionState(loginDoctor, null);
+  const [data, action, isPending] = useActionState(loginAdmin, null);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,15 +27,17 @@ export default function LoginForm() {
   return (
     <Form action={action}>
       <FormItem>
-        <Label htmlFor="mobile">Mobile</Label>
+        <Label htmlFor="username">Username</Label>
         <Input
-        className="sm:min-w-sm"
-          name="mobile"
-          id="mobile"
-          placeholder="eg. 01777888555"
-          defaultValue={data?.values?.mobile.toString() ?? undefined}
+          className="sm:min-w-sm"
+          name="username"
+          id="username"
+          placeholder="eg. johndoe"
+          defaultValue={data?.values?.username.toString() ?? undefined}
         />
-        {data?.error && <ErrorMessage message={data.error.mobile?.[0] ?? ""} />}
+        {data?.error && (
+          <ErrorMessage message={data.error.username?.[0] ?? ""} />
+        )}
       </FormItem>
       <FormItem>
         <Label htmlFor="password">Password</Label>

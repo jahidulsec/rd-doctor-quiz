@@ -11,3 +11,16 @@ export function getYearRange(year: number) {
     lt: new Date(`${year + 1}-01-01T00:00:00.000Z`),
   };
 }
+
+export function getDateRange(date: Date) {
+  return {
+    gte: new Date(
+      `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}T00:00:00.000Z`
+    ),
+    lt: new Date(
+      `${date.getFullYear()}-${date.getMonth()}-${
+        date.getDate() + 1
+      }T00:00:00.000Z`
+    ),
+  };
+}

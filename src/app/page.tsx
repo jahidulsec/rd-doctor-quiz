@@ -8,5 +8,5 @@ export default async function Home() {
 
   if (authUser.role === "doctor") return redirect("/quiz");
 
-  return redirect("/dashbaord");
+  return redirect("/dashboard");
 }

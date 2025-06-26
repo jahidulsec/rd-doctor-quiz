@@ -2,7 +2,6 @@
 import { phoneRegex } from "@/lib/regex";
 import { z } from "zod";
 import db from "../../../../db/db";
-import fs from "fs/promises";
 import { Prisma } from "@prisma/client";
 import { createSession } from "@/lib/session";
 
@@ -10,10 +9,7 @@ const addSchema = z.object({
   full_name: z.string().min(2, { message: "At least 2 characters" }),
   password: z.string().min(6, { message: "At least 6 characters" }),
   mobile: z.string().regex(phoneRegex, { message: "Invalid" }),
-  image: z
-    .instanceof(File)
-    .refine((file) => file.size === 0 || file.type.startsWith("image/"))
-    .optional(),
+
   mio_id: z.string().optional(),
 });
 
@@ -40,17 +36,12 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
     }
   }
 
-  let filePath = ``;
-
   try {
     const result = addSchema.safeParse(
       Object.fromEntries(cleanedFormData.entries())
     );
 
     if (result.success === false) {
-      if (filePath) {
-        await fs.unlink(`public/${filePath}`);
-      }
       return {
         error: result.error.formErrors.fieldErrors,
         success: null,
@@ -72,22 +63,9 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
       throw { message: "Doctor with this mobile already exists" };
     }
 
-    // save image
-
-    if (data.image && data.image.size > 0) {
-      fs.mkdir(`public/doctors`, { recursive: true });
-
-      const imageArrayBuffer = await data.image.arrayBuffer();
-      const imageBuffer = new Uint8Array(imageArrayBuffer);
-
-      filePath = `/doctors/${crypto.randomUUID()}-${data.image?.name}`;
-      await fs.writeFile(`public${filePath}`, imageBuffer);
-    }
-
     const user = await db.doctor.create({
       data: {
         ...data,
-        image: filePath,
       },
     });
 
@@ -105,10 +83,6 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
     };
   } catch (error) {
     console.error(error);
-
-    if (filePath) {
-      await fs.unlink(`public/${filePath}`);
-    }
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2003") {
