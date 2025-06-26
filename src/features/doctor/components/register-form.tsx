@@ -60,16 +60,7 @@ export default function RegisterForm() {
           <ErrorMessage message={data.error.password?.[0] ?? ""} />
         )}
       </FormItem>
-      <FormItem>
-        <Label htmlFor="image">
-          Image{" "}
-          <span className="text-xs text-muted-foreground">(Optional)</span>
-        </Label>
-        <Input type="file" name="image" id="image" />
-        {data?.error && (
-          <ErrorMessage message={(data.error.image as any) ?? ""} />
-        )}
-      </FormItem>
+
       <FormItem>
         <Label htmlFor="mio_id">
           MIO ID{" "}
