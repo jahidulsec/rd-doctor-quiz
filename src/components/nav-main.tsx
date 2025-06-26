@@ -2,7 +2,6 @@
 
 import { type LucideIcon } from "lucide-react";
 
-import { Collapsible } from "@/components/ui/collapsible";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -10,6 +9,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function NavMain({
   items,
@@ -21,24 +22,22 @@ export function NavMain({
     isActive?: boolean;
   }[];
 }) {
+
+  const pathname = usePathname()
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Main</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <SidebarMenuButton tooltip={item.title}>
+          <SidebarMenuItem key={item.url}>
+            <SidebarMenuButton isActive={item.url === pathname} tooltip={item.title} asChild className="data-[active=true]:border-secondary border border-transparent">
+              <Link href={item.url}>
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </Collapsible>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         ))}
       </SidebarMenu>
     </SidebarGroup>

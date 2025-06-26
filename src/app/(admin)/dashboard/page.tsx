@@ -1,4 +1,5 @@
 import { ErrorBoundary } from "@/components/errors/error-boundary";
+import { SearchForm } from "@/components/input/search";
 import { TableSkeleton } from "@/components/skeleton/table";
 import { PageHeading } from "@/components/typography/heading";
 import DoctorTable from "@/features/doctor/components/doctor-table";
@@ -14,7 +15,12 @@ export default function DoctorPage({
 }) {
   return (
     <>
-      <PageHeading icon={<Users />}>Doctor</PageHeading>
+      <div className="flex justify-between items-center gap-3 flex-wrap">
+        <PageHeading icon={<Users />}>Doctor</PageHeading>
+        <Suspense>
+          <SearchForm />
+        </Suspense>
+      </div>
       <Suspense fallback={<TableSkeleton />}>
         <TableSection searchParams={searchParams} />
       </Suspense>

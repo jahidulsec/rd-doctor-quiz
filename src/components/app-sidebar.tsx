@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  Brain,
-  List,
-  Users,
-} from "lucide-react";
+import { Brain, List, Users } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -18,7 +14,6 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
   user: {
     name: "shadcn",
@@ -29,19 +24,19 @@ const data = {
     {
       name: "World Brain Day",
       logo: Brain,
-      plan: "Special Quiz"
+      plan: "Special Quiz",
     },
   ],
   navMain: [
     {
       title: "Doctor",
-      url: "#",
+      url: "/dashboard",
       icon: Users,
       isActive: true,
     },
     {
       title: "Result",
-      url: "#",
+      url: "/dashboard/result",
       icon: List,
     },
   ],
