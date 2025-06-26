@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import db from "../../../../db/db";
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 
 const loginSchema = z.object({
   password: z.string().min(6, { message: "At least 6 characters" }),
@@ -60,6 +60,22 @@ export const loginAdmin = async (prevState: unknown, formData: FormData) => {
       success: null,
       toast: (error as any).message,
       values: modifiedFormData,
+    };
+  }
+};
+
+export const logout = async () => {
+  try {
+    await deleteSession();
+
+    return {
+      success: "Your are successfully logged out",
+      error: null,
+    };
+  } catch (error) {
+    return {
+      success: "Your are successfully logged out",
+      error: (error as any).message,
     };
   }
 };

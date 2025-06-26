@@ -9,12 +9,10 @@ export default function NavRegister({
   return (
     <header className={"w-full border-b bg-background"} {...props}>
       <div
-        className={
-          (cn(
-            "flex justify-between items-center gap-5 container px-6 py-3 lg:p-0 mx-auto"
-          ),
-          className)
-        }
+        className={cn(
+          "flex justify-between items-center gap-5 container px-6 py-3 lg:p-0 mx-auto w-full",
+          className
+        )}
       >
         <Image
           src={"/images/Radiant Digital Health Logo.png"}

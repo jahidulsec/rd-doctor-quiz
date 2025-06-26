@@ -1,25 +1,24 @@
 "use client";
 
 import * as React from "react";
-import { Brain, List, Users } from "lucide-react";
+import { Brain, List, LogOut, Rows3, Users } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { logout } from "@/features/admin/actions/admin";
+import { toast } from "sonner";
+import { useRouter } from "@bprogress/next";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "World Brain Day",
@@ -35,6 +34,11 @@ const data = {
       isActive: true,
     },
     {
+      title: "Question",
+      url: "/dashboard/question",
+      icon: Rows3,
+    },
+    {
       title: "Result",
       url: "/dashboard/result",
       icon: List,
@@ -43,6 +47,9 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [pending, startTransition] = React.useTransition();
+  const router = useRouter();
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -52,7 +59,29 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <SidebarMenu>
+          <SidebarMenuButton
+            disabled={pending}
+            onClick={() => {
+              startTransition(async () => {
+                const response = logout();
+                toast.promise(response, {
+                  loading: "Loading...",
+                  success: (data) => {
+                    if (!data.success) throw data.error;
+                    router.replace("/login");
+                    return data.success;
+                  },
+                  error: (data) => {
+                    return data.error;
+                  },
+                });
+              });
+            }}
+          >
+            <LogOut /> Logout
+          </SidebarMenuButton>
+        </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
