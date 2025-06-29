@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Brain, List, LogOut, Rows3, Users } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { NavMain } from "@/components/dashboard/nav-main";
+import { TeamSwitcher } from "@/components/dashboard/team-switcher";
 import {
   Sidebar,
   SidebarContent,
