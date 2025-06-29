@@ -11,6 +11,7 @@ const ImageInput = ({
   imageClassName,
   onChange,
   defaultFile,
+  id,
   ...props
 }: React.ComponentProps<"input"> & {
   imageClassName?: string;
@@ -36,8 +37,6 @@ const ImageInput = ({
     setUpload(undefined);
     console.log("heello");
   }, [defaultFile]);
-
-  const id = crypto.randomUUID();
 
   return (
     <div className="relative">

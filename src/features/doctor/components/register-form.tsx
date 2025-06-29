@@ -65,6 +65,7 @@ export default function RegisterForm() {
       <FormItem className="col-span-1 md:col-span-3">
         <Label>Image</Label>
         <ImageInput
+          id="1"
           imageClassName="aspect-video w-full rounded-sm"
           width={100}
           height={100}
@@ -76,10 +77,7 @@ export default function RegisterForm() {
       </FormItem>
 
       <FormItem>
-        <Label htmlFor="mio_id">
-          MIO ID{" "}
-          <span className="text-xs text-muted-foreground">(Optional)</span>
-        </Label>
+        <Label htmlFor="mio_id">MIO ID </Label>
         <Input
           name="mio_id"
           id="mio_id"

@@ -4,8 +4,9 @@ import { z } from "zod";
 import db from "../../../../db/db";
 import { Prisma } from "@prisma/client";
 import { createSession } from "@/lib/session";
+import fs from "fs/promises";
 
-const MAX_IMAGE_SIZE = 1 * 1024 * 1024 // 1MB
+const MAX_IMAGE_SIZE = 1 * 1024 * 1024; // 1MB
 
 const addSchema = z.object({
   full_name: z.string().min(2, { message: "At least 2 characters" }),
@@ -15,7 +16,10 @@ const addSchema = z.object({
     .instanceof(File, { message: "Required" })
     .refine((file) => file.size > 0, "Required")
     .refine((file) => file.type.startsWith("image/"), "File must be an image")
-    .refine((file) => file.size <= MAX_IMAGE_SIZE, "Image size must be 1MB or less"),
+    .refine(
+      (file) => file.size <= MAX_IMAGE_SIZE,
+      "Image size must be 1MB or less"
+    ),
   mio_id: z.string(),
 });
 
@@ -26,6 +30,7 @@ const loginSchema = z.object({
 
 export const addDoctor = async (prevState: unknown, formData: FormData) => {
   const modifiedFormData = Object.fromEntries(formData.entries());
+  let uploadedImage = "";
 
   // Create a cleaned version
   const cleanedFormData = new FormData();
@@ -58,6 +63,15 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
 
     const data = result.data;
 
+    if (data.image) {
+      await fs.mkdir("public/doctors", { recursive: true });
+
+      uploadedImage = `/doctors/${crypto.randomUUID()}-${data.image.name}`;
+      const imageFile = new Uint8Array(await data.image.arrayBuffer());
+
+      await fs.writeFile(`public${uploadedImage}`, Buffer.from(imageFile));
+    }
+
     // check doctor
     const doctor = await db.doctor.findUnique({
       where: {
@@ -72,6 +86,7 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
     const user = await db.doctor.create({
       data: {
         ...data,
+        image: uploadedImage,
       },
     });
 
@@ -89,6 +104,9 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
     };
   } catch (error) {
     console.error(error);
+
+    // delete image
+    fs.unlink(`public${uploadedImage}`).catch((err) => console.error(err));
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2003") {
