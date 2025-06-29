@@ -10,10 +10,10 @@ export default function NavDoctor() {
         {/* user */}
         <div className="flex items-center gap-3">
           {/* image */}
-          <div className="relative w-10 aspect-square rounded-full overflow-hidden border border-secondary">
+          <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-accent">
             <Image
               fill
-              src={"/images/logo_full.svg"}
+              src={"/images/logo_icon.svg"}
               alt=""
               objectFit="cover"
               className="scale-75"
@@ -21,7 +21,7 @@ export default function NavDoctor() {
           </div>
 
           {/* name */}
-          <h2 className="font-bold">Dr. John</h2>
+          <h2 className="font-semibold text-lg">Dr. John</h2>
         </div>
 
         {/* button */}

@@ -1,4 +1,4 @@
-import LogoFull from "@/components/logo/logo";
+import { LogoFull } from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
 import LoginForm from "@/features/doctor/components/login-form";
 import Link from "next/link";
@@ -10,9 +10,7 @@ export default function LoginPage() {
       <div className="flex flex-col mb-8">
         <LogoFull className="text-primary mb-14" width={250} />
 
-        <h1 className="text-2xl max-w-80 font-semibold">
-          Welcome back
-        </h1>
+        <h1 className="text-2xl max-w-80 font-semibold">Welcome back</h1>
         <p className="text-sm text-muted-foreground">Login with your account</p>
       </div>
 

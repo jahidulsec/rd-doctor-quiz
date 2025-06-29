@@ -1,4 +1,4 @@
-import LogoFull from "@/components/logo/logo";
+import { LogoFull } from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
 import RegisterForm from "@/features/doctor/components/register-form";
 import Link from "next/link";
