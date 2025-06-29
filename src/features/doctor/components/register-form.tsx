@@ -10,6 +10,7 @@ import { addDoctor } from "../actions/doctor";
 import { ErrorMessage } from "@/components/text/error-message";
 import { toast } from "sonner";
 import { useRouter } from "@bprogress/next/app";
+import { ImageInput } from "@/components/input/image-input";
 
 export default function RegisterForm() {
   const [data, action, isPending] = useActionState(addDoctor, null);
@@ -61,6 +62,19 @@ export default function RegisterForm() {
         )}
       </FormItem>
 
+      <FormItem className="col-span-1 md:col-span-3">
+        <Label>Image</Label>
+        <ImageInput
+          imageClassName="aspect-video w-full rounded-sm"
+          width={100}
+          height={100}
+          type="file"
+          name="image"
+          defaultFile={data?.values?.image ?? undefined}
+        />
+        {data?.error?.image && <ErrorMessage message={data.error.image[0]} />}
+      </FormItem>
+
       <FormItem>
         <Label htmlFor="mio_id">
           MIO ID{" "}
@@ -69,7 +83,7 @@ export default function RegisterForm() {
         <Input
           name="mio_id"
           id="mio_id"
-          placeholder="MIO SAP territory code (optinal)"
+          placeholder="MIO SAP territory code"
           defaultValue={data?.values?.mio_id.toString() ?? undefined}
         />
       </FormItem>

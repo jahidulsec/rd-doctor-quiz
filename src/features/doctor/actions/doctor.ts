@@ -5,12 +5,18 @@ import db from "../../../../db/db";
 import { Prisma } from "@prisma/client";
 import { createSession } from "@/lib/session";
 
+const MAX_IMAGE_SIZE = 1 * 1024 * 1024 // 1MB
+
 const addSchema = z.object({
   full_name: z.string().min(2, { message: "At least 2 characters" }),
   password: z.string().min(6, { message: "At least 6 characters" }),
   mobile: z.string().regex(phoneRegex, { message: "Invalid" }),
-
-  mio_id: z.string().optional(),
+  image: z
+    .instanceof(File, { message: "Required" })
+    .refine((file) => file.size > 0, "Required")
+    .refine((file) => file.type.startsWith("image/"), "File must be an image")
+    .refine((file) => file.size <= MAX_IMAGE_SIZE, "Image size must be 1MB or less"),
+  mio_id: z.string(),
 });
 
 const loginSchema = z.object({

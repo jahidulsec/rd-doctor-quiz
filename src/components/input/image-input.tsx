@@ -1,49 +1,100 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Input } from "../ui/input";
+import React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
-type ImageInputProps = React.ComponentProps<"input"> & {
-  defaultValue?: string; // default image URL
-};
+const ImageInput = ({
+  className,
+  imageClassName,
+  onChange,
+  defaultFile,
+  ...props
+}: React.ComponentProps<"input"> & {
+  imageClassName?: string;
+  defaultFile?: any;
+}) => {
+  const [upload, setUpload] = React.useState<File | undefined>(undefined);
 
-const ImageInput = ({ className, defaultValue, ...props }: ImageInputProps) => {
-  const [file, setFile] = React.useState<File | undefined>(undefined);
+  React.useEffect(() => {
+    let objectUrl: string | null = null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.onChange) {
-      props.onChange(e); // pass up
+    if (upload) {
+      objectUrl = URL.createObjectURL(upload);
     }
 
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-    }
-  };
+    return () => {
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
+      }
+    };
+  }, [upload]);
 
-  const imageSrc = file
-    ? URL.createObjectURL(file)
-    : defaultValue
-    ? defaultValue.toString()
-    : null;
+  React.useEffect(() => {
+    setUpload(undefined);
+    console.log("heello");
+  }, [defaultFile]);
 
-  useEffect(() => {
-    if (defaultValue && defaultValue == "") {
-      setFile(undefined);
-    }
-  }, []);
+  const id = crypto.randomUUID();
 
   return (
-    <div className={cn("flex flex-col gap-4", className)}>
-      <Input type="file" onChange={handleChange} accept="image/*" {...props} />
+    <div className="relative">
+      <Label
+        htmlFor={id}
+        className="text-sm text-muted-foreground cursor-pointer border p-2 w-fit"
+      >
+        Upload
+      </Label>
+      <Input
+        id={id}
+        type="file"
+        accept="image/*"
+        className={cn("hidden", className)}
+        aria-label="Upload image"
+        title="Upload image"
+        onError={(e) => {
+          console.error("Failed to load image preview", e);
+        }}
+        {...props}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            setUpload(file);
+            if (onChange) {
+              onChange(e);
+            }
+          }
+        }}
+      />
 
-      {imageSrc && (
-        <div className="bg-muted/50">
-          <div className="relative w-full aspect-[16/4] min-h-[60px] max-h-[80px]">
-            <Image fill objectFit="contain" alt="Preview" src={imageSrc} />
-          </div>
-        </div>
+      {upload ? (
+        <Image
+          width={200}
+          height={200}
+          src={URL.createObjectURL(upload)}
+          alt="upload"
+          className={cn(
+            "rounded-full w-20 h-20 object-contain mt-3",
+            imageClassName
+          )}
+        />
+      ) : typeof defaultFile === "string" ? (
+        <Image
+          width={200}
+          height={200}
+          src={defaultFile}
+          alt="upload"
+          className={cn(
+            "rounded-full w-20 h-20 object-contain mt-3",
+            imageClassName
+          )}
+        />
+      ) : (
+        <div
+          className={cn("w-20 h-20 rounded-full bg-muted mt-3", imageClassName)}
+        />
       )}
     </div>
   );

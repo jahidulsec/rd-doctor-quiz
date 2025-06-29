@@ -22,6 +22,7 @@ model doctor {
   updated_at    DateTime        @default(now()) @updatedAt @db.DateTime(0)
   mio_id        String?         @db.VarChar(36)
   mobile        String          @id @unique(map: "uc_mobile") @db.VarChar(20)
+  image         String          @db.VarChar(255)
   mio           mio?            @relation(fields: [mio_id], references: [sap_territory_code], onUpdate: Restrict, map: "fk_mio_doctor")
   doctor_submit doctor_submit[]
 
