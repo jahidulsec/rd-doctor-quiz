@@ -1,17 +1,33 @@
 "use server";
 
-import { getDateRange } from "@/lib/utils";
 import db from "../../../../db/db";
 
 export const getQuizzes = async () => {
-  try {
-    const data = await db.question.findFirst({
-      where: {
-        quiz_date: getDateRange(new Date()),
-      },
-    });
+  const currentDate = new Date();
+  const newDate = new Date();
+  newDate.setDate(currentDate.getDate() + 1);
 
-    return data;
+  try {
+    const [data, count] = await Promise.all([
+      db.question.findMany({
+        where: {
+          quiz_date: {
+            gte: currentDate,
+            lt: newDate,
+          },
+        },
+      }),
+      db.question.count({
+        where: {
+          quiz_date: {
+            gte: currentDate,
+            lt: newDate,
+          },
+        },
+      }),
+    ]);
+
+    return { data, count };
   } catch (error) {
     console.error(error);
     return null;
@@ -34,11 +50,18 @@ export const getQuiz = async (id: string) => {
 };
 
 export const getQuizSubmit = async (userId: string) => {
+  const currentDate = new Date();
+  const newDate = new Date();
+  newDate.setDate(currentDate.getDate() + 1);
+
   try {
     const data = await db.doctor_submit.findFirst({
       where: {
         question: {
-          quiz_date: getDateRange(new Date()),
+          quiz_date: {
+            gte: currentDate,
+            lt: newDate,
+          },
         },
         doctor_id: userId,
       },

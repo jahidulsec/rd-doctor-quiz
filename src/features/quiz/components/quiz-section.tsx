@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Brain } from "lucide-react";
 import React from "react";
 
-export default function QuizSection() {
+export default function QuizSection({ count }: { count: number }) {
   return (
     <section>
       <h2 className="font-semibold mb-3">Recent</h2>
@@ -19,7 +19,9 @@ export default function QuizSection() {
           {/* information */}
           <div className="flex flex-col">
             <h3 className="font-semibold text-lg">Today&apos;s Quiz</h3>
-            <p className="text-muted-foreground text-sm">3 Questions</p>
+            <p className="text-muted-foreground text-sm">
+              {count} Question{count > 1 ? "s" : null}
+            </p>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 import { LogoFull, LogoIcon } from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export default function BannerSection() {
@@ -14,8 +15,14 @@ export default function BannerSection() {
         />
 
         <div className="w-full flex justify-between items-start gap-5 flex-wrap-reverse">
-          <Button variant={"outline"} className="md:w-fit w-full hover:border-secondary">
-            Get Started <ArrowRight />
+          <Button
+            variant={"outline"}
+            className="md:w-fit w-full hover:border-secondary"
+            asChild
+          >
+            <Link href={"/quiz"}>
+              Get Started <ArrowRight />
+            </Link>
           </Button>
 
           <h1 className="text-center md:w-fit w-full">
