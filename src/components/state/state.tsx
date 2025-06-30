@@ -1,17 +1,20 @@
 import { cn } from "@/lib/utils";
-import { CircleOff, MessageCircleOff } from "lucide-react";
+import {  MessageCircleOff } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 const NoData = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 text-muted-foreground/50 pointer-events-none my-3 min-h-50 justify-center items-center",
+        "flex flex-col gap-1 text-muted-foreground/50 pointer-events-none my-3 justify-center items-center",
         className
       )}
       {...props}
     >
-      <CircleOff size={50} />
+      <div className="relative w-20 aspect-square">
+        <Image src={"/images/corrupted-file.png"} alt="" fill />
+      </div>
       <p className="text-xs">No data</p>
     </div>
   );
@@ -27,7 +30,7 @@ const NoQuizData = ({ className, ...props }: React.ComponentProps<"div">) => {
       {...props}
     >
       <MessageCircleOff size={50} />
-      <p className="text-xs font-medium mt-3">No Quiz for today</p>
+      <p className="text-xs font-medium mt-3">Pl</p>
     </div>
   );
 };

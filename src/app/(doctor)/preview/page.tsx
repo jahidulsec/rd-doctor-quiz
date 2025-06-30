@@ -6,6 +6,7 @@ import {
 import { verifyAutuser } from "@/lib/dal";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { NoData } from "@/components/state/state";
 
 export default async function PreviewPage() {
   const authUser = await verifyAutuser();
@@ -19,11 +20,24 @@ export default async function PreviewPage() {
       totalMark += 1;
     }
   }
+
+  if ((response?.count ?? 0) === 0)
+    return (
+      <div className="flex flex-col justify-center items-center gap-6">
+        <NoData />
+        <Button asChild className="min-w-[10rem]">
+          <Link href={"/"}> Go Back</Link>
+        </Button>
+      </div>
+    );
+
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-3 bg-accent w-fit px-2 py-1 rounded-md text-primary ml-auto border border-secondary">
+      <div className="flex items-center gap-3 bg-accent w-fit px-2 py-1 rounded-md text-primary ml-auto border border-secondary/35 text-xs">
         <p>Mark</p>
-        <p className="font-semibold bg-secondary/15 px-4 py-0.5 rounded-md text-foreground">{totalMark} / {quizCount}{" "}</p>
+        <p className="font-semibold bg-secondary/15 px-4 py-0.5 rounded-md text-foreground">
+          {totalMark} / {quizCount}{" "}
+        </p>
       </div>
 
       <div className="flex flex-col gap-6">
