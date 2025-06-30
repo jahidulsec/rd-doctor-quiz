@@ -35,7 +35,7 @@ export default async function PreviewPage() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3 bg-accent w-fit px-2 py-1 rounded-md text-primary ml-auto border border-secondary/35 text-xs">
         <p>Mark</p>
-        <p className="font-semibold bg-secondary/15 px-4 py-0.5 rounded-md text-foreground">
+        <p className="font-semibold bg-secondary px-4 py-0.5 rounded-md text-foreground">
           {totalMark} / {quizCount}{" "}
         </p>
       </div>
@@ -48,7 +48,7 @@ export default async function PreviewPage() {
                 <span className="text-primary rounded-full">Q{index + 1}.</span>{" "}
                 {item.question.title}
               </p>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {[1, 2, 3, 4].map((value) => (
                   <div
                     key={value}
@@ -67,7 +67,7 @@ export default async function PreviewPage() {
           ))}
       </div>
 
-      <Button className="w-fit min-w-[10rem] mx-auto mt-16" asChild>
+      <Button className="w-fit min-w-[10rem] mx-auto mt-16 mb-10" asChild>
         <Link href={"/"}>Go back to home</Link>
       </Button>
     </div>

@@ -3,7 +3,7 @@ import { phoneRegex } from "@/lib/regex";
 import { z } from "zod";
 import db from "../../../../db/db";
 import { Prisma } from "@prisma/client";
-import { createSession } from "@/lib/session";
+import { createSession, deleteSession } from "@/lib/session";
 import fs from "fs/promises";
 
 const MAX_IMAGE_SIZE = 1 * 1024 * 1024; // 1MB
@@ -180,5 +180,14 @@ export const loginDoctor = async (prevState: unknown, formData: FormData) => {
       toast: (error as any).message,
       values: modifiedFormData,
     };
+  }
+};
+
+export const logout = async () => {
+  try {
+    await deleteSession();
+    return { data: "You are logged out" };
+  } catch (error) {
+    return { error: (error as Error).message };
   }
 };

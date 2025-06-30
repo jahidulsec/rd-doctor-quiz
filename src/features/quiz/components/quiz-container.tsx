@@ -9,6 +9,7 @@ import React, { useTransition } from "react";
 import { submitQuizzes } from "../actions/quiz";
 import { toast } from "sonner";
 import { useRouter } from "@bprogress/next";
+import { CircleCheckBig } from "lucide-react";
 
 export default function QuizContainer({
   question,
@@ -27,7 +28,7 @@ export default function QuizContainer({
     Partial<doctor_submit>[]
   >([]);
   const [isPending, startTransition] = useTransition();
-  const router = useRouter()
+  const router = useRouter();
 
   const currentQuestion = question?.data?.[submitCount];
 
@@ -52,10 +53,10 @@ export default function QuizContainer({
       const response = await submitQuizzes(submitResponse);
       if (response.success) {
         toast.success(response.success);
-        router.push('/success')
+        router.push("/success");
       } else if (response.toast) {
         toast.error(response.toast);
-      } 
+      }
     });
   };
 
@@ -65,7 +66,7 @@ export default function QuizContainer({
       <div>
         <h3 className="text-xs font-medium">Questions</h3>
         <p className="text-2xl font-semibold text-primary">
-          <span className="text-secondary">{submitCount}</span>/
+          <span className="text-secondary-foreground">{submitCount}</span>/
           {question?.count}
         </p>
         <Progress
@@ -78,11 +79,12 @@ export default function QuizContainer({
       <Form className="mt-6">
         {currentQuestion ? (
           <>
-            <p className="text-xl font-semibold rounded-md bg-secondary min-h-20 p-4 text-secondary-foreground">
-              {currentQuestion?.title}
-            </p>
+            <div className="text- font-semibold rounded-md bg-secondary/50 min-h-20 p-4 text-foreground border border-secondary-foreground/35 relative flex items-center gap-3">
+              <p className="text-primary">Q{submitCount + 1}.</p>{" "}
+              <p>{currentQuestion?.title}</p>
+            </div>
 
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
               {[1, 2, 3, 4].map((val) => (
                 <CustomButton
                   key={val}
@@ -90,21 +92,28 @@ export default function QuizContainer({
                   data-selected={checkedValue === val}
                   onClick={() => setCheckedValue(val)}
                 >
-                  {String(
-                    currentQuestion?.[`option_${val}` as keyof question]
-                  ) || ""}
+                  <div className="size-5 bg-secondary rounded-full text-xs text-foreground border border-secondary-foreground/50">
+                    {val}
+                  </div>
+                  <div>
+                    {String(
+                      currentQuestion?.[`option_${val}` as keyof question]
+                    ) || ""}
+                  </div>
                 </CustomButton>
               ))}
             </div>
           </>
         ) : (
-          <p className="text-center">Submit your response.</p>
+          <div className="flex flex-col justify-center items-center gap-3">
+            <CircleCheckBig className="size-20 text-green-500/50" /> <p className="text-sm">Submit your response.</p>
+          </div>
         )}
 
         {(question?.count ?? 0) > submitCount ? (
           <Button
             type="button"
-            className="mt-14"
+            className="mt-14 w-fit min-w-[10rem] mx-auto"
             onClick={handleNext}
             disabled={checkedValue === undefined}
           >
@@ -113,7 +122,7 @@ export default function QuizContainer({
         ) : (
           <Button
             type="button"
-            className="mt-14"
+            className="mt-14 w-fit min-w-[10rem] mx-auto flex items-center"
             onClick={handleSubmit}
             disabled={isPending || question?.count === submissions?.count}
           >
@@ -132,7 +141,7 @@ const CustomButton = ({
   return (
     <Button
       className={cn(
-        "bg-accent text-primary border border-transparent hover:border-primary hover:bg-primary/20 data-[selected=true]:bg-primary/20 data-[selected=true]:border-primary",
+        "bg-accent text-primary flex items-center justify-start gap-6 border border-transparent hover:border-primary hover:bg-primary/20 data-[selected=true]:bg-primary/20 data-[selected=true]:border-primary",
         className
       )}
       {...props}

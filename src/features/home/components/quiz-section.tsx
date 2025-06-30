@@ -22,8 +22,8 @@ export default function QuizSection({
         {/* left */}
         <div className="flex items-center gap-3">
           {/* icon */}
-          <div className="bg-secondary/5 p-3 rounded-md">
-            <Brain className="text-secondary/50 size-6" />
+          <div className="bg-secondary p-3 rounded-md">
+            <Brain className="text-secondary-foreground size-6" />
           </div>
 
           {/* information */}

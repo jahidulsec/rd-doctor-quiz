@@ -69,3 +69,26 @@ export const getDoctors = async (searchParams: SearchParams) => {
     };
   }
 };
+
+export const getDoctor = async (id: string) => {
+  try {
+    const [data] = await Promise.all([
+      db.doctor.findUnique({
+        where: {
+          mobile: id,
+        },
+      }),
+    ]);
+
+    return {
+      data: data,
+      error: null,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: null,
+      error: (error as any).message,
+    };
+  }
+};

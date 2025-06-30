@@ -1,34 +1,36 @@
-import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { verifyAutuser } from "@/lib/dal";
+import { getDoctor } from "@/features/doctor/servers/doctor";
+import LogoutSection from "./logout-section";
 
-export default function NavDoctor() {
+export default async function NavDoctor() {
+  const authUser = await verifyAutuser();
+  const doctor = await getDoctor(authUser?.id ?? "");
+
   return (
     <div className="container mx-auto py-4 p-6 md:px-6">
       <div className="flex items-center justify-between gap-5">
         {/* user */}
-        <div className="flex items-center gap-3">
-          {/* image */}
-          <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-accent">
-            <Image
-              fill
-              src={"/images/logo_icon.svg"}
-              alt=""
-              objectFit="cover"
-              className="scale-75"
-            />
-          </div>
+        {doctor.data && (
+          <div className="flex items-center gap-3">
+            {/* image */}
+            <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-accent">
+              <Image
+                fill
+                src={`${doctor.data?.image}`}
+                alt=""
+                objectFit="cover"
+              />
+            </div>
 
-          {/* name */}
-          <h2 className="font-semibold text-lg">Dr. John</h2>
-        </div>
+            {/* name */}
+            <h2 className="font-semibold text-lg">{doctor.data?.full_name}</h2>
+          </div>
+        )}
 
         {/* button */}
-        <Button variant={"ghost"} className="bg-accent hover:bg-accent/40">
-          <LogOut className="text-secondary" />
-          Logout
-        </Button>
+        <LogoutSection />
       </div>
     </div>
   );
