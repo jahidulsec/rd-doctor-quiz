@@ -35,6 +35,30 @@ export const getQuizzes = async () => {
   }
 };
 
+export const getQuizzesCount = async () => {
+  const currentDate = new Date();
+  const newDate = new Date();
+  newDate.setDate(currentDate.getDate() + 1);
+
+  try {
+    const [count] = await Promise.all([
+      db.question.count({
+        where: {
+          quiz_date: {
+            gte: new Date(format(currentDate, "yyyy-MM-dd")),
+            lte: new Date(format(newDate, "yyyy-MM-dd")),
+          },
+        },
+      }),
+    ]);
+
+    return count;
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }
+};
+
 export const getQuiz = async (id: string) => {
   try {
     const data = await db.question.findUnique({

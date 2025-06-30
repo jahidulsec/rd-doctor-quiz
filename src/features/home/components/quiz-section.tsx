@@ -1,8 +1,18 @@
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Brain } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
-export default function QuizSection({ count }: { count: number }) {
+export default function QuizSection({
+  count,
+  submissionCount,
+  totalMark,
+}: {
+  count: number;
+  submissionCount: number;
+  totalMark: number;
+}) {
   return (
     <section>
       <h2 className="font-semibold mb-3">Recent</h2>
@@ -20,6 +30,7 @@ export default function QuizSection({ count }: { count: number }) {
           <div className="flex flex-col">
             <h3 className="font-semibold text-lg">Today&apos;s Quiz</h3>
             <p className="text-muted-foreground text-sm">
+              {submissionCount > 0 && totalMark + " / "}
               {count} Question{count > 1 ? "s" : null}
             </p>
           </div>
@@ -27,9 +38,20 @@ export default function QuizSection({ count }: { count: number }) {
 
         {/* right */}
         <div className="flex flex-col items-end gap-3">
-          <Badge variant={"outline"} className="bg-yellow-50 text-yellow-700">
-            Incomplete
-          </Badge>
+          {submissionCount > 0 ? (
+            <>
+              <Badge variant={"outline"} className="bg-green-50 text-green-700">
+                Complete
+              </Badge>
+              <Button size={"sm"} asChild>
+                <Link href={"/preview"}>Preview</Link>
+              </Button>
+            </>
+          ) : (
+            <Badge variant={"outline"} className="bg-yellow-50 text-yellow-700">
+              Incomplete
+            </Badge>
+          )}
         </div>
       </div>
     </section>

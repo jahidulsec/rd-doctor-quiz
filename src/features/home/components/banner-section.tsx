@@ -1,10 +1,14 @@
 import { LogoFull, LogoIcon } from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export default function BannerSection() {
+export default function BannerSection({
+  submissionCount,
+}: {
+  submissionCount: number;
+}) {
   return (
     <section>
       {/* banner */}
@@ -15,15 +19,27 @@ export default function BannerSection() {
         />
 
         <div className="w-full flex justify-between items-start gap-5 flex-wrap-reverse">
-          <Button
-            variant={"outline"}
-            className="md:w-fit w-full hover:border-secondary"
-            asChild
-          >
-            <Link href={"/quiz"}>
-              Get Started <ArrowRight />
-            </Link>
-          </Button>
+          {submissionCount > 0 ? (
+            <Button
+              variant={"outline"}
+              className="md:w-fit w-full hover:border-secondary"
+              asChild
+            >
+              <Link href={"/preview"}>
+                Preview <ArrowUpRight />
+              </Link>
+            </Button>
+          ) : (
+            <Button
+              variant={"outline"}
+              className="md:w-fit w-full hover:border-secondary"
+              asChild
+            >
+              <Link href={"/quiz"}>
+                Get Started <ArrowRight />
+              </Link>
+            </Button>
+          )}
 
           <h1 className="text-center md:w-fit w-full">
             <span className="text-primary-foreground text-xl">
