@@ -1,6 +1,7 @@
 "use server";
 
 import db from "../../../../db/db";
+import { format } from "date-fns";
 
 export const getQuizzes = async () => {
   const currentDate = new Date();
@@ -12,16 +13,16 @@ export const getQuizzes = async () => {
       db.question.findMany({
         where: {
           quiz_date: {
-            gte: currentDate,
-            lt: newDate,
+            gte: new Date(format(currentDate, "yyyy-MM-dd")),
+            lte: new Date(format(newDate, "yyyy-MM-dd")),
           },
         },
       }),
       db.question.count({
         where: {
           quiz_date: {
-            gte: currentDate,
-            lt: newDate,
+            gte: new Date(format(currentDate, "yyyy-MM-dd")),
+            lte: new Date(format(newDate, "yyyy-MM-dd")),
           },
         },
       }),
@@ -60,8 +61,8 @@ export const getQuizSubmit = async (userId: string) => {
         where: {
           question: {
             quiz_date: {
-              gte: currentDate,
-              lt: newDate,
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
             },
           },
           doctor_id: userId,
@@ -71,8 +72,50 @@ export const getQuizSubmit = async (userId: string) => {
         where: {
           question: {
             quiz_date: {
-              gte: currentDate,
-              lt: newDate,
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            },
+          },
+          doctor_id: userId,
+        },
+      }),
+    ]);
+
+    return { data, count };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+export const getQuizSubmitWithQuestion = async (userId: string) => {
+  const currentDate = new Date();
+  const newDate = new Date();
+  newDate.setDate(currentDate.getDate() + 1);
+
+  console.log(newDate);
+  console.log(currentDate);
+
+  try {
+    const [data, count] = await Promise.all([
+      db.doctor_submit.findMany({
+        where: {
+          question: {
+            quiz_date: {
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            },
+          },
+          doctor_id: userId,
+        },
+        include: { question: true },
+      }),
+      db.doctor_submit.count({
+        where: {
+          question: {
+            quiz_date: {
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
             },
           },
           doctor_id: userId,
