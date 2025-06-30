@@ -1,47 +1,19 @@
-// import { NoQuizData } from "@/components/state/state";
-// import { Button } from "@/components/ui/button";
-// import { getQuizSubmit, getQuizzes } from "@/features/quiz/servers/quiz";
-// import { verifyAutuser } from "@/lib/dal";
-// import Link from "next/link";
-import BannerSection from "@/features/quiz/components/banner-section";
-import QuizSection from "@/features/quiz/components/quiz-section";
+import QuizContainer from "@/features/quiz/components/quiz-container";
+import { getQuizSubmit, getQuizzes } from "@/features/quiz/servers/quiz";
+import { verifyAutuser } from "@/lib/dal";
 import React from "react";
 
 export default async function QuizPage() {
-  // const authUser = await verifyAutuser();
+  const authUser = await verifyAutuser();
 
-  // const response = await getQuizzes();
-  // const submissionResponse = await getQuizSubmit(authUser?.id ?? "");
+  const question = await getQuizzes();
+  const submissions = await getQuizSubmit(authUser?.id as string);
 
   return (
-    // <div className="flex flex-col gap-5 items-center">
-    //   <h1 className="text-2xl font-semibold mb-6">
-    //     <span className="text-primary">The World Brain Day</span> <br />{" "}
-    //     Today&apos;s Special Quiz
-    //   </h1>
-
-    //   {response ? (
-    //     submissionResponse ? (
-    //       <Button
-    //         variant={"outline"}
-    //         className="text-secondary border-secondary"
-    //       >
-    //         Participated
-    //       </Button>
-    //     ) : (
-    //       <Button asChild>
-    //         <Link href={`/quiz/${response.id}`}>Participate</Link>
-    //       </Button>
-    //     )
-    //   ) : (
-    //     <NoQuizData />
-    //   )}
-    // </div>
-    <div className="flex flex-col gap-4">
-      <BannerSection />
-
-      {/* quiz */}
-      <QuizSection />
-    </div>
+    <QuizContainer
+      question={question}
+      submissions={submissions}
+      doctor_id={authUser?.id}
+    />
   );
 }

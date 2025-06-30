@@ -1,6 +1,6 @@
 import { getQuizSubmit, getQuizzes } from "@/features/quiz/servers/quiz";
-import BannerSection from "@/features/quiz/components/banner-section";
-import QuizSection from "@/features/quiz/components/quiz-section";
+import BannerSection from "@/features/home/components/banner-section";
+import QuizSection from "@/features/home/components/quiz-section";
 import React from "react";
 import { verifyAutuser } from "@/lib/dal";
 

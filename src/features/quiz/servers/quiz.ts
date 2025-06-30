@@ -55,19 +55,32 @@ export const getQuizSubmit = async (userId: string) => {
   newDate.setDate(currentDate.getDate() + 1);
 
   try {
-    const data = await db.doctor_submit.findFirst({
-      where: {
-        question: {
-          quiz_date: {
-            gte: currentDate,
-            lt: newDate,
+    const [data, count] = await Promise.all([
+      db.doctor_submit.findMany({
+        where: {
+          question: {
+            quiz_date: {
+              gte: currentDate,
+              lt: newDate,
+            },
           },
+          doctor_id: userId,
         },
-        doctor_id: userId,
-      },
-    });
+      }),
+      db.doctor_submit.count({
+        where: {
+          question: {
+            quiz_date: {
+              gte: currentDate,
+              lt: newDate,
+            },
+          },
+          doctor_id: userId,
+        },
+      }),
+    ]);
 
-    return data;
+    return { data, count };
   } catch (error) {
     console.error(error);
     return null;

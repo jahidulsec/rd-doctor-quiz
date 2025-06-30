@@ -83,7 +83,8 @@ export default function SubmitForm({
         type="number"
         value={checkedValue}
       />
-      <input type="hidden" name="doctor_id" value={userId} />
+      <input type="hidden" name="
+      " value={userId} />
       <input type="hidden" name="question_id" value={id} />
 
       {/* answer section */}
