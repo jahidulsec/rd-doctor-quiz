@@ -1,15 +1,16 @@
 import path from "path";
 import { promises as fs } from "fs";
 import mime from "mime"; // You need to install this package
+import { params } from "@/types/search-params";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: params }
 ) {
   const { id } = await params;
 
   try {
-    const filePath = path.join(process.cwd(), `public`, "doctors", id);
+    const filePath = path.join(process.cwd(), `public`, "doctors", String(id));
 
     // Check if the file exists
     const fileExists = await fs.stat(filePath);
