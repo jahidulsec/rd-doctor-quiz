@@ -38,6 +38,7 @@ export const getQuizzes = async () => {
 export const getQuizzesCount = async () => {
   const currentDate = new Date();
   const newDate = new Date();
+  newDate.setDate(currentDate.getDate() + 1);
 
   try {
     const [count] = await Promise.all([
