@@ -38,7 +38,6 @@ export const getQuizzes = async () => {
 export const getQuizzesCount = async () => {
   const currentDate = new Date();
   const newDate = new Date();
-  newDate.setDate(currentDate.getDate() + 1);
 
   try {
     const [count] = await Promise.all([
@@ -77,7 +76,6 @@ export const getQuiz = async (id: string) => {
 export const getQuizSubmit = async (userId: string) => {
   const currentDate = new Date();
   const newDate = new Date();
-  newDate.setDate(currentDate.getDate() + 1);
 
   try {
     const [data, count] = await Promise.all([
@@ -116,9 +114,6 @@ export const getQuizSubmitWithQuestion = async (userId: string) => {
   const currentDate = new Date();
   const newDate = new Date();
   newDate.setDate(currentDate.getDate() + 1);
-
-  console.log(newDate);
-  console.log(currentDate);
 
   try {
     const [data, count] = await Promise.all([

@@ -28,5 +28,5 @@ export default async function middleware(req: NextRequest) {
 
 // Routes Middleware should not run on
 export const config = {
-  matcher: ["/dashboard/:path*", "/quiz/:path*", "/api/:path*"],
+  matcher: ["/dashboard/:path*", "/quiz/:path*", ],
 };

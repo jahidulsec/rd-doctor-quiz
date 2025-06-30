@@ -18,8 +18,8 @@ export default async function NavDoctor() {
             <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-accent">
               <Image
                 fill
-                src={`${doctor.data?.image}`}
-                alt=""
+                src={`/api/image/${doctor.data.image.replace('/', '')}`}
+                alt={doctor.data.full_name}
                 objectFit="cover"
               />
             </div>

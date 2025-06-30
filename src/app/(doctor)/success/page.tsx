@@ -15,7 +15,7 @@ export default function SuccessPage() {
         />
       </div>
       <p>Your response is submitted</p>
-      <Button asChild>
+      <Button asChild className="mt-6">
         <Link href={"/preview"}>Preview Response</Link>
       </Button>
     </div>

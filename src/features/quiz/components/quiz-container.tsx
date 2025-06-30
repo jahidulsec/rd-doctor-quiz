@@ -69,10 +69,7 @@ export default function QuizContainer({
           <span className="text-secondary-foreground">{submitCount}</span>/
           {question?.count}
         </p>
-        <Progress
-          className="mt-6"
-          value={(submitCount * 100) / (question?.count ?? 1)}
-        />
+        <Progress className="mt-3" value={(submitCount * 100) / (question?.count ?? 1)} />
       </div>
 
       {/* Question Form */}
@@ -105,8 +102,9 @@ export default function QuizContainer({
             </div>
           </>
         ) : (
-          <div className="flex flex-col justify-center items-center gap-3">
-            <CircleCheckBig className="size-20 text-green-500/50" /> <p className="text-sm">Submit your response.</p>
+          <div className="flex flex-col justify-center items-center gap-3 my-6">
+            <CircleCheckBig className="size-20 text-green-500/50" />{" "}
+            <p className="text-sm">Submit your response.</p>
           </div>
         )}
 
@@ -122,7 +120,7 @@ export default function QuizContainer({
         ) : (
           <Button
             type="button"
-            className="mt-14 w-fit min-w-[10rem] mx-auto flex items-center"
+            className="w-fit min-w-[10rem] mx-auto flex items-center"
             onClick={handleSubmit}
             disabled={isPending || question?.count === submissions?.count}
           >
