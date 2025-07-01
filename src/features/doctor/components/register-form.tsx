@@ -66,11 +66,12 @@ export default function RegisterForm() {
         <Label>Image</Label>
         <ImageInput
           id="1"
-          imageClassName="aspect-video w-full rounded-sm"
+          imageClassName="w-30 h-30 rounded-md"
           width={100}
           height={100}
           type="file"
           name="image"
+          className="rounded-md"
           defaultFile={data?.values?.image ?? undefined}
         />
         {data?.error?.image && <ErrorMessage message={data.error.image[0]} />}
