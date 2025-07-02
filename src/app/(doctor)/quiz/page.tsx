@@ -1,6 +1,7 @@
 import { StateSection } from "@/components/section/section";
 import { NoData } from "@/components/state/state";
 import { Button } from "@/components/ui/button";
+import { addParticipate } from "@/features/participate/actions/participate";
 import QuizContainer from "@/features/quiz/components/quiz-container";
 import { getQuizSubmit, getQuizzes } from "@/features/quiz/servers/quiz";
 import { verifyAutuser } from "@/lib/dal";
@@ -42,6 +43,12 @@ export default async function QuizPage() {
         </Button>
       </StateSection>
     );
+
+  // on entering this page, create a participation data
+  await addParticipate({
+    doctor_id: authUser?.id as string,
+    group_id: question?.data[0].group_id ?? "",
+  });
 
   return (
     <QuizContainer

@@ -62,7 +62,7 @@ model doctor_submit {
 }
 
 model admin {
-  id         String   @id @db.VarChar(36)
+  id         String   @id @default(uuid()) @db.VarChar(36)
   username   String   @unique(map: "uc_admin") @db.VarChar(100)
   full_name  String   @db.VarChar(100)
   password   String   @db.VarChar(100)
@@ -70,7 +70,7 @@ model admin {
 }
 
 model group_doctor {
-  id             String         @id @db.VarChar(36)
+  id             String         @id @default(uuid()) @db.VarChar(36)
   group_id       String         @db.VarChar(100)
   doctor_id      String         @db.VarChar(100)
   start_date     DateTime       @db.DateTime(0)
@@ -85,7 +85,7 @@ model group_doctor {
 }
 
 model quater {
-  id             String           @id @db.VarChar(36)
+  id             String           @id @default(uuid()) @db.VarChar(36)
   title          String           @db.VarChar(100)
   start_date     DateTime         @db.DateTime(0)
   end_date       DateTime         @db.DateTime(0)
@@ -95,7 +95,7 @@ model quater {
 }
 
 model question_group {
-  id           String         @id @db.VarChar(36)
+  id           String         @id @default(uuid()) @db.VarChar(36)
   quater_id    String         @db.VarChar(100)
   created_at   DateTime?      @default(now()) @db.Timestamp(0)
   updated_at   DateTime?      @default(now()) @updatedAt @db.Timestamp(0)
