@@ -3,7 +3,7 @@ import {  MessageCircleOff } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 
-const NoData = ({ className, ...props }: React.ComponentProps<"div">) => {
+const NoData = ({ className, message="No data", ...props }: React.ComponentProps<"div"> & {message?: string}) => {
   return (
     <div
       className={cn(
@@ -12,10 +12,10 @@ const NoData = ({ className, ...props }: React.ComponentProps<"div">) => {
       )}
       {...props}
     >
-      <div className="relative w-20 aspect-square">
+      <div className="relative w-30 aspect-square opacity-50 poien">
         <Image src={"/images/corrupted-file.png"} alt="" fill />
       </div>
-      <p className="text-xs">No data</p>
+      <p className="text-xs">{message}</p>
     </div>
   );
 };

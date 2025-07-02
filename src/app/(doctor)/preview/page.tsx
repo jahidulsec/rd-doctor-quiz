@@ -7,6 +7,7 @@ import { verifyAutuser } from "@/lib/dal";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { NoData } from "@/components/state/state";
+import { StateSection } from "@/components/section/section";
 
 export default async function PreviewPage() {
   const authUser = await verifyAutuser();
@@ -23,12 +24,12 @@ export default async function PreviewPage() {
 
   if ((response?.count ?? 0) === 0)
     return (
-      <div className="flex flex-col justify-center items-center gap-6">
+      <StateSection>
         <NoData />
         <Button asChild className="min-w-[10rem]">
           <Link href={"/"}> Go Back</Link>
         </Button>
-      </div>
+      </StateSection>
     );
 
   return (

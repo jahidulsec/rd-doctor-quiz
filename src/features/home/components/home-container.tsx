@@ -28,7 +28,7 @@ export default async function HomeContainer() {
 
   return (
     <div className="flex flex-col gap-4">
-      <BannerSection submissionCount={submissionResponse?.count ?? 0} />
+      <BannerSection count={quizCount} submissionCount={submissionResponse?.count ?? 0} />
 
       {/* quiz */}
       <QuizSection

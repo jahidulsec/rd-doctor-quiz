@@ -1,3 +1,5 @@
+import { StateSection } from "@/components/section/section";
+import { NoData } from "@/components/state/state";
 import { Button } from "@/components/ui/button";
 import QuizContainer from "@/features/quiz/components/quiz-container";
 import { getQuizSubmit, getQuizzes } from "@/features/quiz/servers/quiz";
@@ -29,6 +31,16 @@ export default async function QuizPage() {
           </Button>
         </div>
       </div>
+    );
+
+  if (question?.count === 0)
+    return (
+      <StateSection>
+        <NoData />
+        <Button asChild className="min-w-[10rem]">
+          <Link href={"/"}> Go Back</Link>
+        </Button>
+      </StateSection>
     );
 
   return (

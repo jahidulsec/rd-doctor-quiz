@@ -6,8 +6,10 @@ import React from "react";
 
 export default function BannerSection({
   submissionCount,
+  count,
 }: {
   submissionCount: number;
+  count: number;
 }) {
   return (
     <section>
@@ -19,7 +21,7 @@ export default function BannerSection({
         />
 
         <div className="w-full flex justify-between items-start gap-5 flex-wrap-reverse">
-          {submissionCount > 0 ? (
+          {count > 0 && (submissionCount > 0 ? (
             <Button
               variant={"outline"}
               className="md:w-fit w-full hover:border-secondary"
@@ -39,7 +41,7 @@ export default function BannerSection({
                 Get Started <ArrowRight />
               </Link>
             </Button>
-          )}
+          ))}
 
           <h1 className="text-center md:w-fit w-full">
             <span className="text-primary-foreground text-xl">

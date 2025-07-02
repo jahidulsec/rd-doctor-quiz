@@ -25,7 +25,7 @@ export default async function NavDoctor() {
             </div>
 
             {/* name */}
-            <h2 className="font-semibold text-lg">{doctor.data?.full_name}</h2>
+            <h2 className="font-semibold text-lg line-clamp-1">{doctor.data?.full_name}</h2>
           </div>
         )}
 
