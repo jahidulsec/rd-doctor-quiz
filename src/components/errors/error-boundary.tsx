@@ -1,13 +1,12 @@
 "use client";
 
-import { APIError } from "@/types/errors";
 import React, { useEffect } from "react";
 import { toast } from "sonner";
 
 const ErrorBoundary = ({
   children,
   error,
-}: React.PropsWithChildren & { error: APIError | null }) => {
+}: React.PropsWithChildren & { error: Error | null }) => {
   useEffect(() => {
     if (error) {
       toast.error(error.message);
