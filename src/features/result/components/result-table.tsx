@@ -64,11 +64,17 @@ export default function ResultTable({
     {
       header: "Time",
       cell: ({ row }) => {
-        return (
-          <div className="">
-            {Number(row.original?.group_doctor?.[0]?.duration_s)}
-          </div>
-        );
+        const data = row.original;
+        let totalTime = 0;
+
+        if (data.group_doctor && data.group_doctor.length > 0) {
+          totalTime = data.group_doctor.reduce(
+            (acc, curr) => acc + (curr.duration_s || 0),
+            0
+          );
+        }
+
+        return <div className="">{totalTime > 0 ? totalTime : "-"}</div>;
       },
     },
     {
