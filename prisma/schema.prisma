@@ -80,8 +80,8 @@ model group_doctor {
   question_group question_group @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "group_doctor_ibfk_1")
   doctor         doctor         @relation(fields: [doctor_id], references: [mobile], onDelete: Cascade, onUpdate: Restrict, map: "group_doctor_ibfk_2")
 
+  @@unique([group_id, doctor_id], map: "group_id")
   @@index([doctor_id], map: "doctor_id")
-  @@index([group_id], map: "group_id")
 }
 
 model quater {

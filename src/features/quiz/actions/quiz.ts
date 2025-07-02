@@ -8,6 +8,7 @@ import { revalidatePath } from "next/cache";
 const quizSubmitSchema = z.object({
   question_id: z.string(),
   doctor_id: z.string(),
+  group_id: z.string(),
   answer: z.coerce.number({ message: "Select a option" }),
 });
 
@@ -30,7 +31,31 @@ export const submitQuizzes = async (response: any[]) => {
     }
 
     const response = await db.doctor_submit.createMany({
-      data: res,
+      data: res.map((item: any) => {
+        const { group_id, ...rest } = item;
+        console.log(group_id);
+        return {
+          ...rest,
+        };
+      }),
+    });
+
+    // get paritcipation data
+    const participatedData = await db.group_doctor.findFirst({
+      where: {
+        doctor_id: result.data.data[0].doctor_id,
+        group_id: result.data.data[0].group_id,
+      },
+    });
+
+    // submit end date in participation
+    await db.group_doctor.update({
+      where: {
+        id: participatedData?.id,
+      },
+      data: {
+        end_date: new Date(),
+      },
     });
 
     revalidatePath("/preview");

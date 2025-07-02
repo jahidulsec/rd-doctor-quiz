@@ -41,6 +41,7 @@ export default function QuizContainer({
         doctor_id,
         question_id: currentQuestion.id,
         answer: checkedValue,
+        group_id: currentQuestion.group_id,
       },
     ]);
 
@@ -62,6 +63,7 @@ export default function QuizContainer({
 
   return (
     <div className="flex flex-col gap-4">
+      {JSON.stringify(submissions)}
       {/* Header */}
       <div>
         <h3 className="text-xs font-medium">Questions</h3>
@@ -69,7 +71,10 @@ export default function QuizContainer({
           <span className="text-secondary-foreground">{submitCount}</span>/
           {question?.count}
         </p>
-        <Progress className="mt-3" value={(submitCount * 100) / (question?.count ?? 1)} />
+        <Progress
+          className="mt-3"
+          value={(submitCount * 100) / (question?.count ?? 1)}
+        />
       </div>
 
       {/* Question Form */}

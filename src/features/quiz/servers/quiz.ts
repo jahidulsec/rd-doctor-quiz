@@ -83,7 +83,10 @@ export const getQuiz = async (id: string) => {
 export const getQuizSubmit = async (userId: string) => {
   const currentDate = new Date();
   const newDate = new Date();
+  newDate.setDate(currentDate.getDate() + 1);
 
+  console.log(currentDate);
+  console.log(newDate);
   try {
     const [data, count] = await Promise.all([
       db.doctor_submit.findMany({
