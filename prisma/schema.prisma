@@ -25,22 +25,27 @@ model doctor {
   image         String          @db.VarChar(255)
   mio           mio?            @relation(fields: [mio_id], references: [sap_territory_code], onUpdate: Restrict, map: "fk_mio_doctor")
   doctor_submit doctor_submit[]
+  group_doctor  group_doctor[]
 
   @@index([mio_id], map: "fk_mio_doctor")
 }
 
 model question {
-  id            String          @id @db.VarChar(36)
-  title         String          @db.VarChar(100)
-  option_1      String?         @db.VarChar(100)
-  option_2      String?         @db.VarChar(100)
-  option_3      String?         @db.VarChar(100)
-  option_4      String?         @db.VarChar(100)
-  answer        Int
-  created_at    DateTime        @default(now()) @db.DateTime(0)
-  updated_at    DateTime        @default(now()) @updatedAt @db.DateTime(0)
-  quiz_date     DateTime        @db.DateTime(0)
-  doctor_submit doctor_submit[]
+  id             String          @id @db.VarChar(36)
+  title          String          @db.VarChar(100)
+  option_1       String?         @db.VarChar(100)
+  option_2       String?         @db.VarChar(100)
+  option_3       String?         @db.VarChar(100)
+  option_4       String?         @db.VarChar(100)
+  answer         Int
+  created_at     DateTime        @default(now()) @db.DateTime(0)
+  updated_at     DateTime        @default(now()) @updatedAt @db.DateTime(0)
+  quiz_date      DateTime        @db.DateTime(0)
+  group_id       String          @db.VarChar(36)
+  doctor_submit  doctor_submit[]
+  question_group question_group  @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "question_ibfk_1")
+
+  @@index([group_id], map: "group_id")
 }
 
 model doctor_submit {
@@ -63,4 +68,41 @@ model admin {
   full_name  String   @db.VarChar(100)
   password   String   @db.VarChar(100)
   created_at DateTime @default(now()) @db.DateTime(0)
+}
+
+model group_doctor {
+  id             String         @id @db.VarChar(36)
+  group_id       String         @db.VarChar(100)
+  doctor_id      String         @db.VarChar(100)
+  start_date     DateTime       @db.DateTime(0)
+  end_date       DateTime?      @db.DateTime(0)
+  created_at     DateTime?      @default(now()) @db.Timestamp(0)
+  updated_at     DateTime?      @default(now()) @updatedAt @db.Timestamp(0)
+  question_group question_group @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "group_doctor_ibfk_1")
+  doctor         doctor         @relation(fields: [doctor_id], references: [mobile], onDelete: Cascade, onUpdate: Restrict, map: "group_doctor_ibfk_2")
+
+  @@index([doctor_id], map: "doctor_id")
+  @@index([group_id], map: "group_id")
+}
+
+model quater {
+  id             String           @id @db.VarChar(36)
+  title          String           @db.VarChar(100)
+  start_date     DateTime         @db.DateTime(0)
+  end_date       DateTime         @db.DateTime(0)
+  created_at     DateTime?        @default(now()) @db.Timestamp(0)
+  updated_at     DateTime?        @default(now()) @updatedAt @db.Timestamp(0)
+  question_group question_group[]
+}
+
+model question_group {
+  id           String         @id @db.VarChar(36)
+  quater_id    String         @db.VarChar(100)
+  created_at   DateTime?      @default(now()) @db.Timestamp(0)
+  updated_at   DateTime?      @default(now()) @updatedAt @db.Timestamp(0)
+  group_doctor group_doctor[]
+  question     question[]
+  quater       quater         @relation(fields: [quater_id], references: [id], onUpdate: Restrict, map: "question_group_ibfk_1")
+
+  @@index([quater_id], map: "quater_id")
 }
