@@ -40,7 +40,6 @@ model question {
   answer         Int
   created_at     DateTime        @default(now()) @db.DateTime(0)
   updated_at     DateTime        @default(now()) @updatedAt @db.DateTime(0)
-  quiz_date      DateTime        @db.DateTime(0)
   group_id       String          @db.VarChar(36)
   doctor_submit  doctor_submit[]
   question_group question_group  @relation(fields: [group_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "question_ibfk_1")
@@ -100,6 +99,7 @@ model question_group {
   quater_id    String         @db.VarChar(100)
   created_at   DateTime?      @default(now()) @db.Timestamp(0)
   updated_at   DateTime?      @default(now()) @updatedAt @db.Timestamp(0)
+  quiz_date    DateTime       @db.DateTime(0)
   group_doctor group_doctor[]
   question     question[]
   quater       quater         @relation(fields: [quater_id], references: [id], onUpdate: Restrict, map: "question_group_ibfk_1")

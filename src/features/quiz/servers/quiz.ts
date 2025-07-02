@@ -12,17 +12,21 @@ export const getQuizzes = async () => {
     const [data, count] = await Promise.all([
       db.question.findMany({
         where: {
-          quiz_date: {
-            gte: new Date(format(currentDate, "yyyy-MM-dd")),
-            lte: new Date(format(newDate, "yyyy-MM-dd")),
+          question_group: {
+            quiz_date: {
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            },
           },
         },
       }),
       db.question.count({
         where: {
-          quiz_date: {
-            gte: new Date(format(currentDate, "yyyy-MM-dd")),
-            lte: new Date(format(newDate, "yyyy-MM-dd")),
+          question_group: {
+            quiz_date: {
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            },
           },
         },
       }),
@@ -44,9 +48,11 @@ export const getQuizzesCount = async () => {
     const [count] = await Promise.all([
       db.question.count({
         where: {
-          quiz_date: {
-            gte: new Date(format(currentDate, "yyyy-MM-dd")),
-            lte: new Date(format(newDate, "yyyy-MM-dd")),
+          question_group: {
+            quiz_date: {
+              gte: new Date(format(currentDate, "yyyy-MM-dd")),
+              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            },
           },
         },
       }),
@@ -83,9 +89,11 @@ export const getQuizSubmit = async (userId: string) => {
       db.doctor_submit.findMany({
         where: {
           question: {
-            quiz_date: {
-              gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            question_group: {
+              quiz_date: {
+                gte: new Date(format(currentDate, "yyyy-MM-dd")),
+                lte: new Date(format(newDate, "yyyy-MM-dd")),
+              },
             },
           },
           doctor_id: userId,
@@ -94,9 +102,11 @@ export const getQuizSubmit = async (userId: string) => {
       db.doctor_submit.count({
         where: {
           question: {
-            quiz_date: {
-              gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            question_group: {
+              quiz_date: {
+                gte: new Date(format(currentDate, "yyyy-MM-dd")),
+                lte: new Date(format(newDate, "yyyy-MM-dd")),
+              },
             },
           },
           doctor_id: userId,
@@ -121,9 +131,11 @@ export const getQuizSubmitWithQuestion = async (userId: string) => {
       db.doctor_submit.findMany({
         where: {
           question: {
-            quiz_date: {
-              gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            question_group: {
+              quiz_date: {
+                gte: new Date(format(currentDate, "yyyy-MM-dd")),
+                lte: new Date(format(newDate, "yyyy-MM-dd")),
+              },
             },
           },
           doctor_id: userId,
@@ -133,9 +145,11 @@ export const getQuizSubmitWithQuestion = async (userId: string) => {
       db.doctor_submit.count({
         where: {
           question: {
-            quiz_date: {
-              gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+            question_group: {
+              quiz_date: {
+                gte: new Date(format(currentDate, "yyyy-MM-dd")),
+                lte: new Date(format(newDate, "yyyy-MM-dd")),
+              },
             },
           },
           doctor_id: userId,

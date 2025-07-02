@@ -14,9 +14,7 @@ export default function QuizSection({
   totalMark: number;
 }) {
   return (
-    <section>
-      <h2 className="font-semibold mb-3">Recent</h2>
-
+    <section className="w-full">
       {/* quiz card */}
       <div className="bg-accent rounded-md p-4 flex justify-between items-center flex-wrap gap-5">
         {/* left */}

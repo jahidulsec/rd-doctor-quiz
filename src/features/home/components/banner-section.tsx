@@ -12,16 +12,26 @@ export default function BannerSection({
   count: number;
 }) {
   return (
-    <section>
+    <>
       {/* banner */}
-      <div className="isolate bg-primary p-6 rounded-md flex justify-between items-center flex-wrap gap-2 relative overflow-hidden backdrop-blur-2xl">
+      <div className="isolate bg-primary p-6 rounded-md flex justify-center items-center flex-col gap-6 relative overflow-hidden backdrop-blur-2xl">
         <LogoFull
-          className="text-primary-foreground md:w-[220px] w-[120px]"
+          className="text-primary-foreground md:w-[220px] w-[180px]"
           width={220}
         />
 
-        <div className="w-full flex justify-between items-start gap-5 flex-wrap-reverse">
-          {count > 0 && (submissionCount > 0 ? (
+        <h1 className="text-center md:w-fit w-full">
+          <span className="text-primary-foreground text-xl">
+            The World Brain Day
+          </span>{" "}
+          <br />
+          <strong className="text-2xl text-primary-foreground">
+            Special Quiz
+          </strong>
+        </h1>
+
+        {count == 0 &&
+          (submissionCount > 0 ? (
             <Button
               variant={"outline"}
               className="md:w-fit w-full hover:border-secondary"
@@ -43,22 +53,11 @@ export default function BannerSection({
             </Button>
           ))}
 
-          <h1 className="text-center md:w-fit w-full">
-            <span className="text-primary-foreground text-xl">
-              The World Brain Day
-            </span>{" "}
-            <br />
-            <strong className="text-2xl text-primary-foreground">
-              Special Quiz
-            </strong>
-          </h1>
-        </div>
-
         <LogoIcon
           className="absolute -right-1 -bottom-10 -z-10 text-accent opacity-10"
           width={150}
         />
       </div>
-    </section>
+    </>
   );
 }
