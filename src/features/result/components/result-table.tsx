@@ -18,6 +18,7 @@ export default function ResultTable({
             question: true;
           };
         };
+        group_doctor: true;
       };
     }>[];
     error: string | null;
@@ -35,6 +36,7 @@ export default function ResultTable({
             question: true;
           };
         };
+        group_doctor: true;
       };
     }>
   >[] = [
@@ -60,6 +62,16 @@ export default function ResultTable({
       header: "Mobile",
     },
     {
+      header: "Time",
+      cell: ({ row }) => {
+        return (
+          <div className="">
+            {Number(row.original?.group_doctor?.[0]?.duration_s)}
+          </div>
+        );
+      },
+    },
+    {
       header: "Mark",
       cell: ({ row }) => {
         const value = row.original;
@@ -67,12 +79,7 @@ export default function ResultTable({
 
         if (value.doctor_submit.length > 0) {
           for (let i = 0; i < value.doctor_submit.length; i++) {
-            if (
-              value.doctor_submit[i].answer ===
-              value.doctor_submit[i].question.answer
-            ) {
-              total += 1;
-            }
+            total += value.doctor_submit[i].mark;
           }
         }
 

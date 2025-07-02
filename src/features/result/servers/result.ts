@@ -17,13 +17,13 @@ export const getResults = async (searchParams: SearchParams) => {
             OR: [
               {
                 full_name: {
-                    contains: search as string,
-                }
+                  contains: search as string,
+                },
               },
               {
                 mobile: {
-                    contains: search as string,
-                }
+                  contains: search as string,
+                },
               },
             ],
           }),
@@ -34,6 +34,7 @@ export const getResults = async (searchParams: SearchParams) => {
               question: true,
             },
           },
+          group_doctor: true,
         },
         take: validatedSize,
         skip: (validatedPage - 1) * validatedSize,
@@ -44,13 +45,13 @@ export const getResults = async (searchParams: SearchParams) => {
             OR: [
               {
                 full_name: {
-                    contains: search as string,
-                }
+                  contains: search as string,
+                },
               },
               {
                 mobile: {
-                    contains: search as string,
-                }
+                  contains: search as string,
+                },
               },
             ],
           }),

@@ -36,7 +36,7 @@ const TableSection = async ({
   const response = await getQuestions(searchParams);
 
   return (
-    <ErrorBoundary error={response.error}>
+    <ErrorBoundary error={response.error as any}>
       <QuestionTable response={response} />
     </ErrorBoundary>
   );

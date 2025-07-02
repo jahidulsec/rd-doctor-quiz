@@ -6,20 +6,19 @@ import { TableWrapper } from "@/components/table/table";
 import { formatDate } from "@/lib/formatters";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import { question } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export default function QuestionTable({
   response,
 }: {
   response: {
-    data: question[];
-    error: string | null;
+    data: Prisma.questionGetPayload<{ include: { question_group: true } }>[];
     count: number;
     page: number;
     size: number;
   };
 }) {
-  const columns: ColumnDef<question>[] = [
+  const columns: ColumnDef<(typeof response.data)[0]>[] = [
     {
       header: "#",
       cell: ({ row, table }) => {
@@ -62,7 +61,9 @@ export default function QuestionTable({
       cell: ({ row }) => {
         const data = row.original;
 
-        return <span>{formatDate(new Date(data.quiz_date))}</span>;
+        return (
+          <span>{formatDate(new Date(data.question_group.quiz_date))}</span>
+        );
       },
     },
 

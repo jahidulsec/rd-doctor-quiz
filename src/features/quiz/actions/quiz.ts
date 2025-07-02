@@ -10,6 +10,7 @@ const quizSubmitSchema = z.object({
   doctor_id: z.string(),
   group_id: z.string(),
   answer: z.coerce.number({ message: "Select a option" }),
+  correct_answer: z.coerce.number(),
 });
 
 const quizzesSubmitSchema = z.object({
@@ -30,12 +31,15 @@ export const submitQuizzes = async (response: any[]) => {
       };
     }
 
+    const data = result.data.data;
+
     const response = await db.doctor_submit.createMany({
-      data: res.map((item: any) => {
-        const { group_id, ...rest } = item;
+      data: data.map((item) => {
+        const { group_id, correct_answer, ...rest } = item;
         console.log(group_id);
         return {
           ...rest,
+          mark: rest.answer === Number(correct_answer) ? 1 : 0,
         };
       }),
     });
@@ -48,13 +52,18 @@ export const submitQuizzes = async (response: any[]) => {
       },
     });
 
+    const currentTime = new Date();
+    const duration =
+      currentTime.getTime() - Number(participatedData?.start_date.getTime());
+
     // submit end date in participation
     await db.group_doctor.update({
       where: {
         id: participatedData?.id,
       },
       data: {
-        end_date: new Date(),
+        duration_s: duration / 1000,
+        end_date: currentTime,
       },
     });
 

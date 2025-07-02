@@ -42,6 +42,7 @@ export default function QuizContainer({
         question_id: currentQuestion.id,
         answer: checkedValue,
         group_id: currentQuestion.group_id,
+        correct_answer: currentQuestion.answer,
       },
     ]);
 
@@ -63,7 +64,6 @@ export default function QuizContainer({
 
   return (
     <div className="flex flex-col gap-4">
-      {JSON.stringify(submissions)}
       {/* Header */}
       <div>
         <h3 className="text-xs font-medium">Questions</h3>

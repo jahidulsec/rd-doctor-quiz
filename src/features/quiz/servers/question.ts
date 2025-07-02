@@ -19,6 +19,9 @@ export const getQuestions = async (searchParams: SearchParams) => {
             },
           }),
         },
+        include: {
+          question_group: true,
+        },
         take: validatedSize,
         skip: (validatedPage - 1) * validatedSize,
       }),
@@ -44,7 +47,7 @@ export const getQuestions = async (searchParams: SearchParams) => {
     console.log(error);
     return {
       data: [],
-      error: (error as any).message,
+      error: error,
       count: 0,
       page: validatedPage,
       size: validatedSize,
