@@ -6,6 +6,7 @@ import { TableWrapper } from "@/components/table/table";
 import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import { Rank } from "@/types/rank";
+import { formatDuration } from "@/lib/utils";
 
 export default function ResultTable({
   response,
@@ -37,7 +38,11 @@ export default function ResultTable({
       accessorKey: "total_mark",
       header: "Total Mark",
     },
-    { accessorKey: "total_duration", header: "Total Duration (Sec)" },
+    {
+      accessorKey: "total_duration",
+      header: "Total Duration (Sec)",
+      cell: ({ row }) => <p>{formatDuration(row.original.total_duration)}</p>,
+    },
   ];
 
   return (

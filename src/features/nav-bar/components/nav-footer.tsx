@@ -23,7 +23,7 @@ const data = [
 
 export default function NavFooter() {
   return (
-    <footer className="max-w-[20rem] left-1/2 -translate-x-1/2 fixed bottom-0 bg-background w-full flex items-center justify-center gap-3 p-2 rounded-t-2xl border border-primary/50">
+    <footer className="max-w-[20rem] left-1/2 -translate-x-1/2 fixed bottom-5 w-full flex items-center justify-center gap-3 p-2 rounded-2xl border border-primary/50 bg-background">
       {data.map((item) => (
         <CustomButton props={item} key={item.id} />
       ))}
@@ -35,10 +35,18 @@ const CustomButton = ({ props }: { props: (typeof data)[0] }) => {
   const pathname = usePathname();
 
   return (
-    <Button variant={"ghost"} asChild>
+    <Button
+      variant={"ghost"}
+      asChild
+      className={`${pathname === props.url ? "bg-muted" : ""}`}
+    >
       <Link href={props.url}>
         <props.icon
-          className={`${pathname === props.url ? "fill-primary/40 text-primary" : "text-accent-foreground/50"}`}
+          className={`${
+            pathname === props.url
+              ? "fill-primary/25 text-primary"
+              : "text-accent-foreground/50"
+          }`}
         />
       </Link>
     </Button>

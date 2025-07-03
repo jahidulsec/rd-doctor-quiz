@@ -1,10 +1,9 @@
 "use server";
 
-import { SearchParams } from "@/types/search-params";
 import db from "../../../../db/db";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/data";
 
-export const getResults = async (searchParams: SearchParams) => {
+export const getResults = async (searchParams: any) => {
   const { page, size, search } = await searchParams;
   const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
@@ -14,7 +13,7 @@ export const getResults = async (searchParams: SearchParams) => {
   let baseQuery = `
     WITH ranked_doctors AS (
       SELECT
-        d.full_name, d.mobile,
+        d.full_name, d.mobile, d.image,
         IFNULL((
           SELECT SUM(r.mark)
           FROM doctor_submit r
