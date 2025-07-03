@@ -9,41 +9,47 @@ export const getResults = async (searchParams: SearchParams) => {
   const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
 
+  const offset = (validatedPage - 1) * validatedSize;
+
+  let baseQuery = `
+    WITH ranked_doctors AS (
+      SELECT
+        d.full_name, d.mobile,
+        IFNULL((
+          SELECT SUM(r.mark)
+          FROM doctor_submit r
+          WHERE r.doctor_id = d.mobile
+        ), 0) AS total_mark,
+        IFNULL((
+          SELECT SUM(t.duration_s)
+          FROM group_doctor t
+          WHERE t.doctor_id = d.mobile
+        ), 300000) AS total_duration,
+        RANK() OVER (
+          ORDER BY total_mark DESC, total_duration ASC
+        ) AS rank
+      FROM doctor d
+    )
+    SELECT *
+    FROM ranked_doctors
+  `;
+
+  const params: any[] = [];
+
+  // Add search condition if `search` is non-empty
+  if (search && search.trim() !== "") {
+    baseQuery += ` WHERE mobile LIKE ? OR full_name LIKE ?`;
+    const searchTerm = `%${search}%`;
+    params.push(searchTerm, searchTerm);
+  }
+
+  // Add pagination
+  baseQuery += ` LIMIT ?, ?`;
+  params.push(offset, validatedSize);
+
   try {
     const [data, count, questionCount] = await Promise.all([
-      db.$queryRaw`
-        with
-          ranked_doctors as (
-              select
-                  d.*,
-                  IFNULL(
-                      (
-                          select sum(r.mark)
-                          from doctor_submit r
-                          WHERE
-                              r.doctor_id = d.mobile
-                      ),
-                      0
-                  ) total_mark,
-                  IFNULL(
-                      (
-                          select sum(t.duration_s)
-                          from group_doctor t
-                          WHERE
-                              t.doctor_id = d.mobile
-                      ),
-                      300000
-                  ) total_duration,
-                  RANK() OVER (
-                      ORDER BY total_mark DESC, total_duration ASC
-                  ) rank
-              from doctor d
-          )
-      SELECT *
-      FROM ranked_doctors
-      where mobile LIKE "%01672322632%" OR full_name LIKE "%%r. John%"
-      limit ${(validatedPage - 1) * validatedSize}, ${validatedSize};
-      `,
+      db.$queryRawUnsafe(baseQuery, ...params),
       db.doctor.count({
         where: {
           ...(search && {

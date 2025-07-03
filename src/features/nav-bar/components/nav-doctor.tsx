@@ -18,19 +18,21 @@ export default async function NavDoctor() {
             <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-accent">
               <Image
                 fill
-                src={`/api/image/${doctor.data.image.replace('/', '')}`}
+                src={`/api/image/${doctor.data.image.replace("/", "")}`}
                 alt={doctor.data.full_name}
                 objectFit="cover"
               />
             </div>
 
             {/* name */}
-            <h2 className="font-semibold text-lg line-clamp-1">{doctor.data?.full_name}</h2>
+            <h2 className="font-semibold text-lg line-clamp-1">
+              {doctor.data?.full_name}
+            </h2>
           </div>
         )}
 
         {/* button */}
-        <LogoutSection />
+        {doctor.data && <LogoutSection />}
       </div>
     </div>
   );
