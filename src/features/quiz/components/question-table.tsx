@@ -13,6 +13,7 @@ export default function QuestionTable({
 }: {
   response: {
     data: Prisma.questionGetPayload<{ include: { question_group: true } }>[];
+    error: Error | null;
     count: number;
     page: number;
     size: number;
