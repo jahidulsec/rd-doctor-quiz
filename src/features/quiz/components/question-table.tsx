@@ -66,15 +66,6 @@ export default function QuestionTable({
         );
       },
     },
-
-    {
-      header: "Created At",
-      cell: ({ row }) => {
-        const data = row.original;
-
-        return <span>{formatDate(new Date(data.created_at))}</span>;
-      },
-    },
   ];
 
   return (
