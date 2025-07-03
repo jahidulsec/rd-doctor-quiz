@@ -14,12 +14,15 @@ export default function LeaderboardSection({
 }) {
   return (
     <div className="flex flex-col gap-6 relative">
-      <h1 className="text-xl font-semibold flex items-center gap-2 text-primary">
+      <div className="flex items-start gap-3">
         <div className="border p-1 border-secondary-foreground bg-secondary/50 rounded-full">
           <ChartNoAxesColumnDecreasing className="size-4" />
         </div>
-        Leaderboard
-      </h1>
+        <div className="flex flex-col items-start gap-0">
+          <h1 className="text-xl font-semibold text-primary">Leaderboard</h1>
+          <p className="text-xs text-muted-foreground font-semibold">Top 20</p>
+        </div>
+      </div>
 
       {/* card section */}
       <div className="flex flex-col gap-3">
@@ -34,10 +37,7 @@ export default function LeaderboardSection({
           <h2 className="text-center text-xs font-semibold mb-3 px-2">
             Your Rank
           </h2>
-          <Card
-            className="border-0 border-t"
-            props={userData[0]}
-          />
+          <Card className="border-0 border-t" props={userData[0]} />
         </div>
       )}
     </div>

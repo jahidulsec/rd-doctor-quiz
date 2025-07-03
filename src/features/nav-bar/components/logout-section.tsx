@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { logout } from "@/features/doctor/actions/doctor";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useRouter } from "@bprogress/next";
 import { LogOut } from "lucide-react";
 import React from "react";
@@ -9,10 +10,11 @@ import { toast } from "sonner";
 
 export default function LogoutSection() {
   const router = useRouter();
+  const isMobile = useIsMobile();
   return (
     <Button
-      variant={"ghost"}
-      className="bg-background hover:bg-background/40"
+      variant={"outline"}
+      size={isMobile ? 'icon' : 'default'}
       onClick={async () => {
         const res = await logout();
         if (res.data) {
@@ -24,7 +26,7 @@ export default function LogoutSection() {
       }}
     >
       <LogOut className="text-secondary-foreground" />
-      Logout
+      <span className="hidden md:inline">Logout</span>
     </Button>
   );
 }
