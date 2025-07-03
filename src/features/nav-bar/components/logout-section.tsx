@@ -12,7 +12,7 @@ export default function LogoutSection() {
   return (
     <Button
       variant={"ghost"}
-      className="bg-accent hover:bg-accent/40"
+      className="bg-background hover:bg-background/40"
       onClick={async () => {
         const res = await logout();
         if (res.data) {

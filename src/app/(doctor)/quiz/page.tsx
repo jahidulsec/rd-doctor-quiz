@@ -34,7 +34,7 @@ export default async function QuizPage() {
       </div>
     );
 
-  if (question?.count === 0)
+  if (question?.count === 0) {
     return (
       <StateSection>
         <NoData />
@@ -43,6 +43,7 @@ export default async function QuizPage() {
         </Button>
       </StateSection>
     );
+  }
 
   // on entering this page, create a participation data
   await addParticipate({

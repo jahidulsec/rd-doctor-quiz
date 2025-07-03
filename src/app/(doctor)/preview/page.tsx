@@ -34,7 +34,7 @@ export default async function PreviewPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center gap-3 bg-accent w-fit px-2 py-1 rounded-md text-primary ml-auto border border-secondary/35 text-xs">
+      <div className="flex items-center gap-3 bg-background overflow-hidden w-fit px-2 py-1 rounded-md text-primary ml-auto border border-secondary/50 text-xs">
         <p>Mark</p>
         <p className="font-semibold bg-secondary px-4 py-0.5 rounded-md text-foreground">
           {totalMark} / {quizCount}{" "}
@@ -44,7 +44,10 @@ export default async function PreviewPage() {
       <div className="flex flex-col gap-6">
         {response?.data &&
           response.data.map((item: any, index) => (
-            <article key={item.id} className="border p-4 rounded-md">
+            <article
+              key={item.id}
+              className="border p-4 rounded-md bg-background/85 backdrop-blur-lg"
+            >
               <p className="mb-4">
                 <span className="text-primary rounded-full">Q{index + 1}.</span>{" "}
                 {item.question.title}
@@ -55,9 +58,9 @@ export default async function PreviewPage() {
                     key={value}
                     data-selected={value == item.answer}
                     data-correct={value === item.question.answer}
-                    className="bg-accent p-2 rounded-md text-sm flex items-center gap-5 data-[selected=true]:bg-red-100 data-[correct=true]:bg-green-100 [[data-selected=true][data-correct=true]]:bg-green-100"
+                    className="bg-accent p-2 rounded-md text-sm flex items-center gap-5 border data-[selected=true]:bg-red-200 data-[correct=true]:bg-green-200 [[data-selected=true][data-correct=true]]:bg-green-200"
                   >
-                    <div className="bg-secondary size-6 aspect-square rounded-full flex justify-center items-center ">
+                    <div className="bg-secondary border border-secondary-foreground/50 size-6 aspect-square rounded-full flex justify-center items-center ">
                       <p>{value}</p>
                     </div>{" "}
                     {String(item?.question?.[`option_${value}`] || "")}

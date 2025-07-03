@@ -15,7 +15,7 @@ export default async function NavDoctor() {
         {doctor.data && (
           <div className="flex items-center gap-3">
             {/* image */}
-            <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-accent">
+            <div className="relative w-8 aspect-square rounded-full overflow-hidden border border-primary bg-background">
               <Image
                 fill
                 src={`/api/image/${doctor.data.image.replace("/", "")}`}

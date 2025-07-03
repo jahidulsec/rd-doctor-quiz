@@ -143,8 +143,9 @@ const CustomButton = ({
 }: React.ComponentProps<"button">) => {
   return (
     <Button
+      type="button"
       className={cn(
-        "bg-accent text-primary flex items-center justify-start gap-6 border border-transparent hover:border-primary hover:bg-primary/20 data-[selected=true]:bg-primary/20 data-[selected=true]:border-primary",
+        "bg-accent h-fit text-wrap whitespace-normal text-primary flex items-center justify-start gap-6 border border-secondary hover:border-primary hover:bg-primary/20 data-[selected=true]:bg-primary/20 data-[selected=true]:border-primary",
         className
       )}
       {...props}

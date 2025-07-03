@@ -7,7 +7,7 @@ export default async function DoctorLayout({ children }: PropsWithChildren) {
     <>
       <NavRegister />
       <NavDoctor  />
-      <main className="min-h-[calc(100svh-64px)] w-full container mx-auto px-6">
+      <main className="min-h-[calc(100svh-150px)] w-full container mx-auto px-6">
         {children}
       </main>
     </>
