@@ -59,8 +59,8 @@ const Card = ({
       <div className="flex justify-between items-center gap-3 ">
         {/* left */}
         <div className="flex items-center gap-3 w-full flex-1">
-          <div className="p-1 bg-accent rounded-full">
-            <div className="relative w-10 aspect-square ">
+          <div className="p-1 bg-accent rounded-full overflow-hidden">
+            <div className="relative w-10 aspect-square rounded-full overflow-hidden">
               <Image
                 fill
                 src={`/api/image/${props?.image?.replace("/", "")}`}
