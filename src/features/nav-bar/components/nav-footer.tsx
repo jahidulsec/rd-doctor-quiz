@@ -23,7 +23,7 @@ const data = [
 
 export default function NavFooter() {
   return (
-    <footer className="max-w-[20rem] left-1/2 -translate-x-1/2 fixed bottom-5 w-full flex items-center justify-center gap-3 p-2 rounded-2xl border border-primary/50 bg-background">
+    <footer className="max-w-[20rem] mx-auto sticky bottom-5 w-full flex items-center justify-center gap-3 p-2 rounded-2xl border border-primary/50 bg-background">
       {data.map((item) => (
         <CustomButton props={item} key={item.id} />
       ))}

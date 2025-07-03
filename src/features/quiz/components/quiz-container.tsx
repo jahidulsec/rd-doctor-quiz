@@ -116,7 +116,7 @@ export default function QuizContainer({
         {(question?.count ?? 0) > submitCount ? (
           <Button
             type="button"
-            className="mt-14 w-fit min-w-[10rem] mx-auto"
+            className="mt-4 w-fit min-w-[10rem] mx-auto"
             onClick={handleNext}
             disabled={checkedValue === undefined}
           >
