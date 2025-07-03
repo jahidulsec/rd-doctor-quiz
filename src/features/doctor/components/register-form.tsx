@@ -21,7 +21,7 @@ export default function RegisterForm() {
       toast.error(data.toast);
     } else if (data?.success) {
       toast.success(data.success);
-      router.push("/");
+      router.push("/register/success");
     }
   }, [data]);
 
@@ -66,7 +66,7 @@ export default function RegisterForm() {
         <Label>Image</Label>
         <ImageInput
           id="1"
-          imageClassName="w-30 h-30 rounded-md"
+          imageClassName="w-30 h-30 rounded-md border"
           width={100}
           height={100}
           type="file"
