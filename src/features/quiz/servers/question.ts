@@ -24,6 +24,11 @@ export const getQuestions = async (searchParams: SearchParams) => {
         },
         take: validatedSize,
         skip: (validatedPage - 1) * validatedSize,
+        orderBy: {
+          question_group: {
+            quiz_date: "asc",
+          },
+        },
       }),
       db.question.count({
         where: {
