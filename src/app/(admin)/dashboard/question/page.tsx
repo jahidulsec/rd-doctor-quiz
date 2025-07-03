@@ -37,7 +37,7 @@ const TableSection = async ({
 
   return (
     <ErrorBoundary error={response.error as any}>
-      <QuestionTable response={response} />
+      <QuestionTable response={response as any} />
     </ErrorBoundary>
   );
 };
