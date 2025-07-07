@@ -65,7 +65,7 @@ const Card = ({
             <AvatarImage
               src={`/api/image/${props?.image?.replace("/", "")}`}
               alt={props.full_name}
-              className="bg-muted p-1"
+              className="bg-muted p-1 object-cover"
             />
             <AvatarFallback>{props.full_name.charAt(0)}</AvatarFallback>
           </Avatar>
