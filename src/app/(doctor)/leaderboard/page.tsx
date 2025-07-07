@@ -10,12 +10,14 @@ import Link from "next/link";
 import React from "react";
 
 export default async function LeaderboardPage() {
+  const size = 50;
+
   const authuser = await verifyAutuser();
   const quaters = await getQuaters({
     size: "1",
     page: "1",
   });
-  const results = await getResults({ page: 1, size: 20 });
+  const results = await getResults({ page: 1, size: size });
   const resultUser = await getResults({
     page: 1,
     size: 1,
@@ -32,6 +34,7 @@ export default async function LeaderboardPage() {
             <LeaderboardSection
               userData={resultUser.data}
               data={results.data}
+              size={size}
             />
           ) : (
             <StateSection>

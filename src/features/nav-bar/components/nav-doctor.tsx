@@ -1,8 +1,8 @@
-import Image from "next/image";
 import React from "react";
 import { verifyAutuser } from "@/lib/dal";
 import { getDoctor } from "@/features/doctor/servers/doctor";
 import LogoutSection from "./logout-section";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function NavDoctor() {
   const authUser = await verifyAutuser();
@@ -15,16 +15,14 @@ export default async function NavDoctor() {
         {doctor.data && (
           <div className="flex items-center gap-3">
             {/* image */}
-            <div className="border border-primary/50 bg-background rounded-full overflow-hidden p-0.75">
-              <div className="relative w-6 aspect-square rounded-full overflow-hidden">
-                <Image
-                  fill
-                  src={`/api/image/${doctor.data.image.replace("/", "")}`}
-                  alt={doctor.data.full_name}
-                  objectFit="cover"
-                />
-              </div>
-            </div>
+            <Avatar>
+              <AvatarImage
+                src={`/api/image/${doctor.data.image.replace("/", "")}`}
+                alt={doctor.data.full_name}
+                className="bg-muted p-1"
+              />
+              <AvatarFallback>{doctor.data.full_name.charAt(0)}</AvatarFallback>
+            </Avatar>
 
             {/* name */}
             <h2 className="font-semibold text-lg line-clamp-1">

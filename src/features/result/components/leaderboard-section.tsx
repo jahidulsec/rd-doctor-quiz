@@ -1,16 +1,18 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn, formatDuration } from "@/lib/utils";
 import { Rank } from "@/types/rank";
 import { ChartNoAxesColumnDecreasing } from "lucide-react";
-import Image from "next/image";
 import React from "react";
 
 export default function LeaderboardSection({
   data,
   userData,
+  size,
 }: {
   data: Rank[];
   userData: Rank[];
+  size: number;
 }) {
   return (
     <div className="flex flex-col gap-6 relative">
@@ -20,7 +22,7 @@ export default function LeaderboardSection({
         </div>
         <div className="flex flex-col items-start gap-0">
           <h1 className="text-xl font-semibold text-primary">Leaderboard</h1>
-          <p className="text-xs text-muted-foreground font-semibold">Top 20</p>
+          <p className="text-xs text-muted-foreground font-semibold">Top {size}</p>
         </div>
       </div>
 
@@ -59,15 +61,15 @@ const Card = ({
       <div className="flex justify-between items-center gap-3 ">
         {/* left */}
         <div className="flex items-center gap-3 w-full flex-1">
-          <div className="p-1 bg-accent w-10 aspect-square  rounded-full overflow-hidden">
-            <div className="relative w-full aspect-square rounded-full overflow-hidden">
-              <Image
-                fill
-                src={`/api/image/${props?.image?.replace("/", "")}`}
-                alt={props.full_name.charAt(0)}
-              />
-            </div>
-          </div>
+          <Avatar>
+            <AvatarImage
+              src={`/api/image/${props?.image?.replace("/", "")}`}
+              alt={props.full_name}
+              className="bg-muted p-1"
+            />
+            <AvatarFallback>{props.full_name.charAt(0)}</AvatarFallback>
+          </Avatar>
+
           <div className="flex flex-col gap-1 w-full">
             <h2 className="font-semibold">{props.full_name}</h2>
             <p className="text-muted-foreground text-xs">{props.mobile}</p>

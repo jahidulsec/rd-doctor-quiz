@@ -23,9 +23,22 @@ export const getResults = async (searchParams: any) => {
           SELECT SUM(t.duration_s)
           FROM group_doctor t
           WHERE t.doctor_id = d.mobile
-        ), 300000) AS total_duration,
+        ), 0) AS total_duration,
+        IF(
+          IFNULL(
+              (
+                  SELECT SUM(t.duration_s)
+                  FROM group_doctor t
+                  WHERE
+                      t.doctor_id = d.mobile
+              ),
+              0
+          ) > 0,
+          1,
+          0
+      ) AS is_participated,
         RANK() OVER (
-          ORDER BY total_mark DESC, total_duration ASC
+          ORDER BY total_mark DESC, is_participated DESC, total_duration ASC
         ) AS rank
       FROM doctor d
     )
