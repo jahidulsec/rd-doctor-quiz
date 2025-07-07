@@ -55,7 +55,7 @@ export default function QuizContainer({
       const response = await submitQuizzes(submitResponse);
       if (response.success) {
         toast.success(response.success);
-        router.push("/success");
+        router.push("/preview");
       } else if (response.toast) {
         toast.error(response.toast);
       }
@@ -81,7 +81,7 @@ export default function QuizContainer({
       <Form className="mt-6">
         {currentQuestion ? (
           <>
-            <div className="text- font-semibold rounded-md bg-secondary/50 min-h-20 p-4 text-foreground border border-secondary-foreground/35 relative flex items-center gap-3">
+            <div className="text- font-semibold rounded-md bg-secondary/50 min-h-20 p-4 text-foreground border border-secondary-foreground/35 relative flex gap-3">
               <p className="text-primary">Q{submitCount + 1}.</p>{" "}
               <p>{currentQuestion?.title}</p>
             </div>
@@ -116,7 +116,7 @@ export default function QuizContainer({
         {(question?.count ?? 0) > submitCount ? (
           <Button
             type="button"
-            className="mt-4 w-fit min-w-[10rem] mx-auto"
+            className="mt-4 w-fit min-w-[10rem] mx-auto mb-10"
             onClick={handleNext}
             disabled={checkedValue === undefined}
           >
