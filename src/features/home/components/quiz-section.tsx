@@ -8,10 +8,12 @@ export default function QuizSection({
   count,
   submissionCount,
   totalMark,
+  quizId,
 }: {
   count: number;
   submissionCount: number;
   totalMark: number;
+  quizId: string;
 }) {
   return (
     <section className="w-full">
@@ -25,8 +27,12 @@ export default function QuizSection({
           </div>
 
           {/* information */}
+
           <div className="flex flex-col">
-            <h3 className="font-semibold text-lg">Today&apos;s Quiz</h3>
+            <h3 className="font-semibold text-lg">
+              {" "}
+              {quizId ? `Day ${quizId}` : null} Quiz
+            </h3>
             <p className="text-muted-foreground text-sm">
               {submissionCount > 0 && totalMark + " / "}
               {count} Question{count > 1 ? "s" : null}

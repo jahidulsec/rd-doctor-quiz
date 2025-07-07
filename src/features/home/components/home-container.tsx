@@ -1,6 +1,6 @@
 import {
   getQuizSubmitWithQuestion,
-  getQuizzesCount,
+  getQuizzes,
 } from "@/features/quiz/servers/quiz";
 import QuizSection from "@/features/home/components/quiz-section";
 import React from "react";
@@ -20,7 +20,7 @@ export default async function HomeContainer() {
     size: "1",
     page: "1",
   });
-  const quizCount = await getQuizzesCount();
+  const quizzes = await getQuizzes();
   const submissionResponse = await getQuizSubmitWithQuestion(
     authUser?.id ?? ""
   );
@@ -35,6 +35,8 @@ export default async function HomeContainer() {
       totalMark += 1;
     }
   }
+
+  const quizCount = quizzes?.count ?? 0;
 
   return (
     <div className="flex flex-col gap-4">
@@ -61,6 +63,7 @@ export default async function HomeContainer() {
           <>
             {/* quiz */}
             <QuizSection
+              quizId={quizzes?.data[0].id ?? ''}
               count={quizCount}
               submissionCount={submissionResponse?.count ?? 0}
               totalMark={totalMark}
@@ -84,7 +87,7 @@ export default async function HomeContainer() {
                   asChild
                 >
                   <Link href={"/quiz"}>
-                    Get Started <ArrowRight />
+                    Start Quiz <ArrowRight />
                   </Link>
                 </Button>
               )
