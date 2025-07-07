@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { NoData } from "@/components/state/state";
 import { StateSection } from "@/components/section/section";
+import { Check, X } from "lucide-react";
 
 export default async function PreviewPage() {
   const authUser = await verifyAutuser();
@@ -58,12 +59,14 @@ export default async function PreviewPage() {
                     key={value}
                     data-selected={value == item.answer}
                     data-correct={value === item.question.answer}
-                    className="bg-accent p-2 rounded-md text-sm flex items-center gap-5 border data-[selected=true]:bg-red-200 data-[correct=true]:bg-green-200 [[data-selected=true][data-correct=true]]:bg-green-200"
+                    className="group bg-accent p-2 rounded-md text-sm flex items-center gap-5 border data-[selected=true]:bg-red-200 data-[correct=true]:bg-green-200 [[data-selected=true][data-correct=true]]:bg-green-200"
                   >
                     <div className="bg-secondary border border-secondary-foreground/50 size-6 aspect-square rounded-full flex justify-center items-center ">
                       <p>{value}</p>
                     </div>{" "}
                     {String(item?.question?.[`option_${value}`] || "")}
+                    <Check className="ml-auto size-4 group-data-[correct=true]:inline hidden group-[[data-selected=true][data-correct=true]]:inline text-green-800" />
+                    <X className="ml-auto size-4 group-data-[selected=true]:inline hidden group-[[data-selected=true][data-correct=true]]:hidden text-red-900" />
                   </div>
                 ))}
               </div>
