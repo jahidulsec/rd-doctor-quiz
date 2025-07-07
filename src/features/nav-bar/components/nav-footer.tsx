@@ -38,7 +38,7 @@ const CustomButton = ({ props }: { props: (typeof data)[0] }) => {
     <Button
       variant={"ghost"}
       asChild
-      className={`${pathname === props.url ? "bg-muted" : ""}`}
+      className={`${pathname === props.url ? "bg-secondary" : ""}`}
     >
       <Link href={props.url}>
         <props.icon
@@ -48,6 +48,7 @@ const CustomButton = ({ props }: { props: (typeof data)[0] }) => {
               : "text-accent-foreground/50"
           }`}
         />
+        <span className="text-xs font-medium">{props.name.toUpperCase()}</span>
       </Link>
     </Button>
   );

@@ -7,7 +7,7 @@ import React from "react";
 import { verifyAutuser } from "@/lib/dal";
 import { LogoFull, LogoIcon } from "@/components/logo/logo";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getQuaters } from "@/features/quater/servers/quater";
 import { format } from "date-fns";
@@ -63,24 +63,14 @@ export default async function HomeContainer() {
           <>
             {/* quiz */}
             <QuizSection
-              quizId={quizzes?.data[0].id ?? ''}
+              quizId={quizzes?.data[0].id ?? ""}
               count={quizCount}
               submissionCount={submissionResponse?.count ?? 0}
               totalMark={totalMark}
             />
 
             {quizCount > 0 ? (
-              Number(submissionResponse?.count) > 0 ? (
-                <Button
-                  variant={"outline"}
-                  className="md:w-fit w-full hover:border-secondary"
-                  asChild
-                >
-                  <Link href={"/preview"}>
-                    Preview <ArrowUpRight />
-                  </Link>
-                </Button>
-              ) : (
+              Number(submissionResponse?.count) > 0 ? null : (
                 <Button
                   variant={"outline"}
                   className="md:w-fit w-full hover:border-secondary"
