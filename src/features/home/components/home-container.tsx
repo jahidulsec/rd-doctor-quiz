@@ -46,7 +46,6 @@ export default async function HomeContainer() {
           className="text-primary-foreground md:w-[220px] w-[180px]"
           width={220}
         />
-        {JSON.stringify(quizCount)}
 
         <h1 className="text-center md:w-fit w-full my-6">
           <span className="text-primary-foreground text-xl">
@@ -89,7 +88,7 @@ export default async function HomeContainer() {
           <p className="text-background text-center border p-4 rounded-md border-secondary-foreground">
             The Quiz will start from <br /> <br />
             <strong className="text-xl text-secondary border p-3 rounded-md backdrop-blur-sm">
-              {format(quaters.data[0].start_date, "LLL dd, yy")}
+              {format(quaters.data[0].start_date, "LLL dd, yyyy")}
             </strong>
             <br /> <br />
             You&apos;ll receive a daily SMS when the quiz starts
