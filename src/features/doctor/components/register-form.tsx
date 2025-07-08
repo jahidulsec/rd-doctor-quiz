@@ -85,6 +85,7 @@ export default function RegisterForm() {
           placeholder="SAP territory code"
           defaultValue={data?.values?.mio_id.toString() ?? undefined}
         />
+        {data?.error?.mio_id && <ErrorMessage message={data.error.mio_id[0]} />}
       </FormItem>
 
       <Button disabled={isPending}>Register</Button>

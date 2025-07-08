@@ -20,7 +20,7 @@ const addSchema = z.object({
       (file) => file.size <= MAX_IMAGE_SIZE,
       "Image size must be 1MB or less"
     ),
-  mio_id: z.string(),
+  mio_id: z.string().min(4, {message: "Enter valid territory code"}),
 });
 
 const loginSchema = z.object({
