@@ -46,6 +46,7 @@ export default async function HomeContainer() {
           className="text-primary-foreground md:w-[220px] w-[180px]"
           width={220}
         />
+        {JSON.stringify(quizCount)}
 
         <h1 className="text-center md:w-fit w-full my-6">
           <span className="text-primary-foreground text-xl">

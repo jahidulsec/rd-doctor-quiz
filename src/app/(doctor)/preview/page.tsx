@@ -36,7 +36,7 @@ export default async function PreviewPage() {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center gap-3 bg-background overflow-hidden w-fit px-2 py-1 rounded-md text-primary ml-auto border border-secondary/50 text-xs">
-        <p>Mark</p>
+        <p>Correct Answers</p>
         <p className="font-semibold bg-secondary px-4 py-0.5 rounded-md text-foreground">
           {totalMark} / {quizCount}{" "}
         </p>

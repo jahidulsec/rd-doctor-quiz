@@ -22,7 +22,9 @@ export default function LeaderboardSection({
         </div>
         <div className="flex flex-col items-start gap-0">
           <h1 className="text-xl font-semibold text-primary">Leaderboard</h1>
-          <p className="text-xs text-muted-foreground font-semibold">Top {size}</p>
+          <p className="text-xs text-muted-foreground font-semibold">
+            Top {size}
+          </p>
         </div>
       </div>
 
@@ -53,14 +55,14 @@ const Card = ({
   return (
     <div
       className={cn(
-        "bg-background p-4 rounded-md border border-primary/50 flex flex-col gap-3",
+        "bg-background p-4 rounded-md border border-primary/50 flex flex-col gap-3 @container/card",
         className
       )}
     >
       {/* top */}
       <div className="flex justify-between items-center gap-3 ">
         {/* left */}
-        <div className="flex items-center gap-3 w-full flex-1">
+        <div className="flex items-start gap-3 w-full flex-1">
           <Avatar>
             <AvatarImage
               src={`/api/image/${props?.image?.replace("/", "")}`}
@@ -83,19 +85,19 @@ const Card = ({
       </div>
 
       {/* button */}
-      <div className="flex justify-center items-center border-t pt-2">
+      <div className="flex justify-center items-center border-t pt-2 ">
         <div className="">
-          <div className="flex gap-3 w-full">
+          <div className="flex gap-3 gap-y-1 w-full items-center flex-wrap text-center">
             <div className="flex items-center gap-1">
-              <p className="text-xs text-foreground">Mark</p>
-              <p className="text-sm text-secondary-foreground">
-                {props.total_mark}
+              <p className="text-xs text-foreground">Correct Answers</p>
+              <p className="text-xs text-secondary-foreground">
+                {Number(props.total_mark)}
               </p>
             </div>
             <Separator orientation="vertical" className="min-h-4" />
             <div className="flex items-center gap-1">
               <p className="text-xs text-foreground">Duration</p>
-              <p className="text-sm text-secondary-foreground">
+              <p className="text-xs text-secondary-foreground">
                 {formatDuration(props.total_duration)}
               </p>
             </div>

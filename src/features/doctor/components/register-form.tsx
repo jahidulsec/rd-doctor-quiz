@@ -78,11 +78,11 @@ export default function RegisterForm() {
       </FormItem>
 
       <FormItem>
-        <Label htmlFor="mio_id">MIO ID </Label>
+        <Label htmlFor="mio_id">SAP Territory Code</Label>
         <Input
           name="mio_id"
           id="mio_id"
-          placeholder="MIO SAP territory code"
+          placeholder="SAP territory code"
           defaultValue={data?.values?.mio_id.toString() ?? undefined}
         />
       </FormItem>

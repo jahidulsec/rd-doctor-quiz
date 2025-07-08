@@ -8,8 +8,6 @@ export const getQuaters = async (searchParams: any) => {
   const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
 
-  console.log(date)
-
   try {
     const [data, count] = await Promise.all([
       db.quater.findMany({
