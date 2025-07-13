@@ -15,7 +15,7 @@ export const getQuizzes = async () => {
           question_group: {
             quiz_date: {
               gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+              lt: new Date(format(newDate, "yyyy-MM-dd")),
             },
           },
         },
@@ -25,7 +25,7 @@ export const getQuizzes = async () => {
           question_group: {
             quiz_date: {
               gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+              lt: new Date(format(newDate, "yyyy-MM-dd")),
             },
           },
         },
@@ -51,7 +51,7 @@ export const getQuizzesCount = async () => {
           question_group: {
             quiz_date: {
               gte: new Date(format(currentDate, "yyyy-MM-dd")),
-              lte: new Date(format(newDate, "yyyy-MM-dd")),
+              lt: new Date(format(newDate, "yyyy-MM-dd")),
             },
           },
         },
@@ -95,7 +95,7 @@ export const getQuizSubmit = async (userId: string) => {
             question_group: {
               quiz_date: {
                 gte: new Date(format(currentDate, "yyyy-MM-dd")),
-                lte: new Date(format(newDate, "yyyy-MM-dd")),
+                lt: new Date(format(newDate, "yyyy-MM-dd")),
               },
             },
           },
@@ -108,7 +108,7 @@ export const getQuizSubmit = async (userId: string) => {
             question_group: {
               quiz_date: {
                 gte: new Date(format(currentDate, "yyyy-MM-dd")),
-                lte: new Date(format(newDate, "yyyy-MM-dd")),
+                lt: new Date(format(newDate, "yyyy-MM-dd")),
               },
             },
           },
@@ -137,7 +137,7 @@ export const getQuizSubmitWithQuestion = async (userId: string) => {
             question_group: {
               quiz_date: {
                 gte: new Date(format(currentDate, "yyyy-MM-dd")),
-                lte: new Date(format(newDate, "yyyy-MM-dd")),
+                lt: new Date(format(newDate, "yyyy-MM-dd")),
               },
             },
           },
@@ -151,7 +151,7 @@ export const getQuizSubmitWithQuestion = async (userId: string) => {
             question_group: {
               quiz_date: {
                 gte: new Date(format(currentDate, "yyyy-MM-dd")),
-                lte: new Date(format(newDate, "yyyy-MM-dd")),
+                lt: new Date(format(newDate, "yyyy-MM-dd")),
               },
             },
           },
