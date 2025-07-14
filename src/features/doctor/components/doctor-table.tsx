@@ -45,6 +45,10 @@ export default function DoctorTable({
       accessorKey: "mio_id",
       header: "MIO",
     },
+    {
+      accessorKey: "password",
+      header: "Password",
+    },
 
     {
       header: "Created At",
