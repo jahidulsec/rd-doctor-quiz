@@ -57,13 +57,14 @@ export default async function HomeContainer() {
           </strong>
         </h1>
 
+
         {quaters.count !== 0 &&
         quaters.data[0].start_date < new Date() &&
         quaters.data[0].end_date > new Date() ? (
           <>
             {/* quiz */}
             <QuizSection
-              quizId={quizzes?.data[0].id ?? ""}
+              quizId={quizzes?.data[0].group_id ?? ""}
               count={quizCount}
               submissionCount={submissionResponse?.count ?? 0}
               totalMark={totalMark}

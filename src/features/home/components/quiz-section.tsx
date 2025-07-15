@@ -30,7 +30,6 @@ export default function QuizSection({
 
           <div className="flex flex-col">
             <h3 className="font-semibold text-lg">
-              {" "}
               {quizId ? `Day ${quizId}` : null} Quiz
             </h3>
             <p className="text-muted-foreground text-sm">
