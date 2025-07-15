@@ -6,14 +6,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useActionState, useEffect } from "react";
-import { addDoctor } from "../actions/doctor";
+import { addDoctor, updateDoctor } from "../actions/doctor";
 import { ErrorMessage } from "@/components/text/error-message";
 import { toast } from "sonner";
 import { useRouter } from "@bprogress/next/app";
 import { ImageInput } from "@/components/input/image-input";
+import { doctor } from "@prisma/client";
 
-export default function RegisterForm() {
-  const [data, action, isPending] = useActionState(addDoctor, null);
+export default function RegisterForm({
+  doctor,
+  onClose,
+}: {
+  doctor?: doctor;
+  onClose?: () => void;
+}) {
+  const [data, action, isPending] = useActionState(
+    doctor ? updateDoctor.bind(null, doctor.mobile) : addDoctor,
+    null
+  );
   const router = useRouter();
 
   useEffect(() => {
@@ -21,7 +31,11 @@ export default function RegisterForm() {
       toast.error(data.toast);
     } else if (data?.success) {
       toast.success(data.success);
-      router.push("/register/success");
+      if (doctor && onClose) {
+        onClose();
+      } else {
+        router.push("/register/success");
+      }
     }
   }, [data]);
 
@@ -33,7 +47,9 @@ export default function RegisterForm() {
           name="full_name"
           id="full_name"
           placeholder="eg. Dr. John Doe"
-          defaultValue={data?.values?.full_name.toString()}
+          defaultValue={
+            data?.values?.full_name.toString() ?? doctor?.full_name ?? undefined
+          }
         />
         {data?.error && (
           <ErrorMessage message={data.error.full_name?.[0] ?? ""} />
@@ -45,7 +61,9 @@ export default function RegisterForm() {
           name="mobile"
           id="mobile"
           placeholder="eg. 01777888555"
-          defaultValue={data?.values?.mobile.toString() ?? undefined}
+          defaultValue={
+            data?.values?.mobile.toString() ?? doctor?.mobile ?? undefined
+          }
         />
         {data?.error && <ErrorMessage message={data.error.mobile?.[0] ?? ""} />}
       </FormItem>
@@ -55,7 +73,9 @@ export default function RegisterForm() {
           name="password"
           id="password"
           placeholder="Enter at least 6 characters"
-          defaultValue={data?.values?.password.toString() ?? undefined}
+          defaultValue={
+            data?.values?.password.toString() ?? doctor?.password ?? undefined
+          }
         />
         {data?.error && (
           <ErrorMessage message={data.error.password?.[0] ?? ""} />
@@ -72,7 +92,11 @@ export default function RegisterForm() {
           type="file"
           name="image"
           className="rounded-md"
-          defaultFile={data?.values?.image ?? undefined}
+          defaultFile={
+            data?.values?.image ??
+            `/api/image/${doctor?.image?.replace("/", "")}` ??
+            undefined
+          }
         />
         {data?.error?.image && <ErrorMessage message={data.error.image[0]} />}
       </FormItem>
@@ -83,7 +107,9 @@ export default function RegisterForm() {
           name="mio_id"
           id="mio_id"
           placeholder="SAP territory code"
-          defaultValue={data?.values?.mio_id.toString() ?? undefined}
+          defaultValue={
+            data?.values?.mio_id.toString() ?? doctor?.mio_id ?? undefined
+          }
         />
         {data?.error?.mio_id && <ErrorMessage message={data.error.mio_id[0]} />}
       </FormItem>

@@ -5,8 +5,24 @@ import { DataTable } from "@/components/table/data-table";
 import { TableWrapper } from "@/components/table/table";
 import { formatDate } from "@/lib/formatters";
 import { ColumnDef } from "@tanstack/react-table";
-import React from "react";
+import React, { useState } from "react";
 import { doctor } from "@prisma/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { EllipsisVertical } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import RegisterForm from "./register-form";
 
 export default function DoctorTable({
   response,
@@ -19,6 +35,8 @@ export default function DoctorTable({
     size: number;
   };
 }) {
+  const [edit, setEdit] = useState<any>(undefined);
+
   const columns: ColumnDef<doctor>[] = [
     {
       header: "#",
@@ -58,6 +76,30 @@ export default function DoctorTable({
         return <span>{formatDate(new Date(data.created_at))}</span>;
       },
     },
+    {
+      id: "actions",
+      cell: ({ row }) => (
+        <div className="flex justify-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+                size="icon"
+              >
+                <EllipsisVertical />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem onClick={() => setEdit(row.original)}>
+                Edit
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -67,6 +109,19 @@ export default function DoctorTable({
       </TableWrapper>
 
       <PagePagination count={response.count} limit={response.size} />
+
+      <Dialog onOpenChange={setEdit} open={!!edit}>
+        <DialogContent className="p-0">
+          <ScrollArea className="max-h-[85vh] p-4">
+            <DialogHeader className="mb-6">
+              <DialogTitle>Edit Doctor</DialogTitle>
+            </DialogHeader>
+
+            {/* form */}
+            <RegisterForm doctor={edit} onClose={() => setEdit(false)} />
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
