@@ -37,6 +37,7 @@ export default function ResultTable({
     {
       accessorKey: "total_mark",
       header: "Total Mark",
+      cell: ({ row }) => <p>{Number(row.original.total_mark)}</p>,
     },
     {
       accessorKey: "total_duration",
