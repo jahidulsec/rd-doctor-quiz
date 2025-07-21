@@ -63,6 +63,9 @@ export async function GET(req: NextRequest) {
           rank: Number(item.rank),
           full_name: item.full_name,
           mobile: item.mobile,
+          image: `${req.nextUrl.protocol}//${req.headers.get(
+            "host"
+          )}/download/${item.mobile}`,
           total_mark: Number(item.total_mark),
           total_duration: item.total_duration,
         };

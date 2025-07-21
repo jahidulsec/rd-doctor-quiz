@@ -19,7 +19,7 @@ function ExportSection() {
       typeof objArray !== "object" ? JSON.parse(objArray) : objArray;
     let str = ``;
     str += `\r\n`;
-    str += "Rank, Full name, mobile, Total Mark, Total Duration (Sec) \r\n";
+    str += "Rank, Full name, mobile, image, Total Mark, Total Duration (Sec) \r\n";
 
     for (let i = 0; i < array.length; i++) {
       let line = ``;
