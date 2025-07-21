@@ -5,19 +5,35 @@ import { Spinner } from "@/components/ui/spinner";
 import { Rank } from "@/types/rank";
 import { Download } from "lucide-react";
 import React, { useTransition } from "react";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 
 export default function DownloadSection({ data }: { data: Rank[] }) {
   const [isPending, startTransition] = useTransition();
 
   const downloadImages = async () => {
+    const zip = new JSZip();
+    const folder = zip.folder("top_150_doctors");
+
     for (let i = 0; i < data.length; i++) {
-      const link = document.createElement("a");
-      link.href = `http://localhost:5007/api/image${data[i].image}`;
-      link.download = `${data[i].rank}-${data[i].full_name}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      const imagePath = `/api/image${data[i].image}`;
+      const fileName = `${data[i].rank}-${data[i].full_name
+        .replaceAll(".", "_")
+        .replaceAll(" ", "_")}.jpg`; // Change extension as needed
+
+      try {
+        const response = await fetch(imagePath);
+        const blob = await response.blob();
+        const arrayBuffer = await blob.arrayBuffer();
+        folder?.file(fileName, arrayBuffer);
+      } catch (error) {
+        console.error(`Failed to fetch image: ${fileName}`, error);
+      }
     }
+
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      saveAs(content, "images.zip");
+    });
   };
 
   return (
@@ -39,7 +55,7 @@ export default function DownloadSection({ data }: { data: Rank[] }) {
         ) : (
           <Download className="size-4 mr-2" />
         )}
-        <span>Export</span>
+        <span>Images (150)</span>
       </Button>
     </>
   );
