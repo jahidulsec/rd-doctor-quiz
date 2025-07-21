@@ -17,6 +17,12 @@ export default function ImageSection({
 }) {
   const [isPending, startTransition] = useTransition();
 
+  React.useEffect(() => {
+    if (src) {
+      downloadImage();
+    }
+  }, [src]);
+
   const downloadImage = async () => {
     const link = document.createElement("a");
     link.href = src;
