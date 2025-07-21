@@ -1,14 +1,14 @@
 import React from "react";
 import db from "../../../../db/db";
-import { Params } from "next/dist/server/request/params";
 import { notFound } from "next/navigation";
 import ImageSection from "@/features/download/components/image-section";
 import NavRegister from "@/features/nav-bar/components/nav-register";
+import { params } from "@/types/search-params";
 
 export default async function DownloadImagePage({
   params,
 }: {
-  params: Params;
+  params: params;
 }) {
   const { mobile } = await params;
 
