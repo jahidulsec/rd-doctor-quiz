@@ -25,7 +25,7 @@ export default async function DownloadImagePage({
       <NavRegister />
       <main className="flex justify-center items-center min-h-[calc(100svh-3rem)] mt-6">
         <ImageSection
-          name={doctor.full_name.replace(".", "_").replaceAll(" ", "_")}
+          name={doctor.full_name}
           mobile={doctor.mobile}
           src={`/api/image${doctor.image}`}
         />

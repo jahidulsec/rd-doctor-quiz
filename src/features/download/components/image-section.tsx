@@ -26,7 +26,7 @@ export default function ImageSection({
   const downloadImage = async () => {
     const link = document.createElement("a");
     link.href = src;
-    link.download = `${name}-${mobile}`;
+    link.download = `${name.replaceAll(".", "_").replaceAll(" ", "_")}-${mobile}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
