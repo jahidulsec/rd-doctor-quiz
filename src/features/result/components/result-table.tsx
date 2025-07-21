@@ -7,6 +7,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import React from "react";
 import { Rank } from "@/types/rank";
 import { formatDuration } from "@/lib/utils";
+import Image from "next/image";
 
 export default function ResultTable({
   response,
@@ -29,6 +30,20 @@ export default function ResultTable({
     {
       accessorKey: "full_name",
       header: "Full Name",
+    },
+    {
+      accessorKey: "image",
+      header: "Image",
+      cell: ({ row }) => (
+        <div>
+          <Image
+            src={`/api/image/${row.original?.image?.replace("/", "")}`}
+            alt=""
+            fill
+            objectFit="cover"
+          />
+        </div>
+      ),
     },
     {
       accessorKey: "mobile",

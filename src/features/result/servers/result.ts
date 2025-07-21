@@ -1,11 +1,11 @@
 "use server";
 
 import db from "../../../../db/db";
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/data";
+import { DEFAULT_PAGE } from "@/lib/data";
 
 export const getResults = async (searchParams: any) => {
   const { page, size, search, quiz_date } = await searchParams;
-  const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
+  const validatedSize = size ? Number(size) : 50;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
 
   const offset = (validatedPage - 1) * validatedSize;
