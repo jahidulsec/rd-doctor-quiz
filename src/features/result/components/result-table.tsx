@@ -35,7 +35,7 @@ export default function ResultTable({
       accessorKey: "image",
       header: "Image",
       cell: ({ row }) => (
-        <div>
+        <div className="relative w-14 aspect-square rounded-md overflow-hidden">
           <Image
             src={`/api/image/${row.original?.image?.replace("/", "")}`}
             alt=""
