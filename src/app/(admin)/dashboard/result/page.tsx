@@ -3,6 +3,7 @@ import { ErrorBoundary } from "@/components/errors/error-boundary";
 import { SearchForm } from "@/components/input/search";
 import { TableSkeleton } from "@/components/skeleton/table";
 import { PageHeading } from "@/components/typography/heading";
+import FilterSection from "@/features/result/components/admin/filter-section";
 import DownloadSection from "@/features/result/components/download-section";
 import ExportSection from "@/features/result/components/export-section";
 import ResultTable from "@/features/result/components/result-table";
@@ -23,6 +24,7 @@ export default async function ResultPage({
         <PageHeading icon={<List />}>Results</PageHeading>
         <Suspense>
           <div className="flex items-center flex-wrap gap-3 justify-center sm:justify-start">
+            <FilterSection />
             <DatePicker />
             <SearchForm />
             <Suspense>

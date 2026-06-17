@@ -1,5 +1,6 @@
 "use server";
 
+import { getSerializeData } from "@/utils/helper";
 import db from "../../../../db/db";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/data";
 
@@ -96,7 +97,7 @@ export const getResults = async (searchParams: any) => {
     ]);
 
     return {
-      data: data as any,
+      data: getSerializeData(data) as any,
       error: null,
       count: count,
       page: validatedPage,
