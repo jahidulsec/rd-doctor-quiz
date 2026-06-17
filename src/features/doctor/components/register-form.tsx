@@ -1,7 +1,6 @@
 "use client";
 
 import { Form, FormItem } from "@/components/forms/form";
-import { PasswordInput } from "@/components/input/password";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,7 +21,7 @@ export default function RegisterForm({
 }) {
   const [data, action, isPending] = useActionState(
     doctor ? updateDoctor.bind(null, doctor.mobile) : addDoctor,
-    null
+    null,
   );
   const router = useRouter();
 
@@ -67,7 +66,7 @@ export default function RegisterForm({
         />
         {data?.error && <ErrorMessage message={data.error.mobile?.[0] ?? ""} />}
       </FormItem>
-      <FormItem>
+      {/* <FormItem>
         <Label htmlFor="password">Password</Label>
         <PasswordInput
           name="password"
@@ -80,7 +79,8 @@ export default function RegisterForm({
         {data?.error && (
           <ErrorMessage message={data.error.password?.[0] ?? ""} />
         )}
-      </FormItem>
+      </FormItem> */}
+      <input className="hidden" name="password" value={process.env.NEXT_PUBLIC_DEFAULT_PASSWORD} />
 
       <FormItem className="col-span-1 md:col-span-3">
         <Label>Image</Label>
@@ -93,8 +93,8 @@ export default function RegisterForm({
           name="image"
           className="rounded-md"
           defaultFile={
-            data?.values?.image ??
-            `/api/image/${doctor?.image?.replace("/", "")}` ??
+            data?.values?.image ||
+            `/api/image/${doctor?.image?.replace("/", "")}` ||
             undefined
           }
         />

@@ -4,7 +4,7 @@ import db from "../../../../db/db";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/data";
 
 export const getResults = async (searchParams: any) => {
-  const { page, size, search, quiz_date } = await searchParams;
+  const { page, size, search, quiz_date, sap_code } = await searchParams;
   const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
 
@@ -44,6 +44,7 @@ export const getResults = async (searchParams: any) => {
         ORDER BY total_mark DESC, is_participated DESC, total_duration ASC
       ) AS rank
     FROM doctor d
+    ${sap_code ? ` where d.mio_id='${sap_code}' ` : ""}
   )
   SELECT *
   FROM ranked_doctors
@@ -85,6 +86,9 @@ export const getResults = async (searchParams: any) => {
                 },
               },
             ],
+          }),
+          ...(sap_code && {
+            mio_id: sap_code,
           }),
         },
       }),

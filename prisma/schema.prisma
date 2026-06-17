@@ -8,10 +8,8 @@ datasource db {
 }
 
 model mio {
-  zone               String   @db.VarChar(100)
-  region             String   @db.VarChar(100)
   sap_territory_code String   @id @db.VarChar(10)
-  territory          String   @db.VarChar(100)
+  area_name          String   @db.VarChar(100)
   doctor             doctor[]
 }
 

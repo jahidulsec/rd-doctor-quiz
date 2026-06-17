@@ -16,12 +16,14 @@ export default async function LeaderboardPage() {
   const quaters = await getQuaters({
     size: "1",
     page: "1",
+    sap_code: authuser?.mio_id
   });
   const results = await getResults({ page: 1, size: size });
   const resultUser = await getResults({
     page: 1,
     size: 1,
     search: authuser?.id,
+    sap_code: authuser?.mio_id
   });
 
   return (

@@ -15,7 +15,7 @@ const imageSchema = z
   .refine((file) => file.type.startsWith("image/"), "File must be an image")
   .refine(
     (file) => file.size <= MAX_IMAGE_SIZE,
-    "Image size must be 1MB or less"
+    "Image size must be 1MB or less",
   );
 
 const addSchema = z.object({
@@ -56,7 +56,7 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
 
   try {
     const result = addSchema.safeParse(
-      Object.fromEntries(cleanedFormData.entries())
+      Object.fromEntries(cleanedFormData.entries()),
     );
 
     if (result.success === false) {
@@ -138,7 +138,7 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
 export const updateDoctor = async (
   id: string,
   prevState: unknown,
-  formData: FormData
+  formData: FormData,
 ) => {
   const modifiedFormData = Object.fromEntries(formData.entries());
   let uploadedImage = "";
@@ -173,7 +173,7 @@ export const updateDoctor = async (
     uploadedImage = doctor?.image as string;
 
     const result = editSchema.safeParse(
-      Object.fromEntries(cleanedFormData.entries())
+      Object.fromEntries(cleanedFormData.entries()),
     );
 
     console.log(result);
@@ -281,6 +281,7 @@ export const loginDoctor = async (prevState: unknown, formData: FormData) => {
       full_name: doctor.full_name,
       role: "doctor",
       id: doctor.mobile,
+      mio_id: doctor.mio_id ?? "",
     });
 
     return {

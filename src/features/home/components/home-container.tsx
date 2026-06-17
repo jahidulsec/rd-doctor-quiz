@@ -5,7 +5,7 @@ import {
 import QuizSection from "@/features/home/components/quiz-section";
 import React from "react";
 import { verifyAutuser } from "@/lib/dal";
-import { LogoFull, LogoIcon } from "@/components/logo/logo";
+import { Logo2 } from "@/components/logo/logo";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ export default async function HomeContainer() {
   });
   const quizzes = await getQuizzes();
   const submissionResponse = await getQuizSubmitWithQuestion(
-    authUser?.id ?? ""
+    authUser?.id ?? "",
   );
 
   let totalMark = 0;
@@ -41,10 +41,10 @@ export default async function HomeContainer() {
   return (
     <div className="flex flex-col gap-4">
       {/* banner */}
-      <div className="isolate bg-primary p-6 rounded-md flex justify-center items-center flex-col gap-6 relative overflow-hidden backdrop-blur-2xl">
-        <LogoFull
-          className="text-primary-foreground md:w-[220px] w-[180px]"
-          width={220}
+      <div className="isolate bg-linear-to-br from-indigo-950 via-purple-950 to-indigo-950 p-6 rounded-md flex justify-center items-center flex-col gap-6 relative overflow-hidden backdrop-blur-2xl">
+        <Logo2
+          // className="text-primary-foreground md:w-[220px] w-[180px]"
+          width={250}
         />
 
         <h1 className="text-center md:w-fit w-full my-6">
@@ -57,14 +57,13 @@ export default async function HomeContainer() {
           </strong>
         </h1>
 
-
         {quaters.count !== 0 &&
         quaters.data[0].start_date < new Date() &&
         quaters.data[0].end_date > new Date() ? (
           <>
             {/* quiz */}
             <QuizSection
-              quizId={quizzes?.data[0].group_id ?? ""}
+              quizId={quizzes?.data[0]?.group_id ?? ""}
               count={quizCount}
               submissionCount={submissionResponse?.count ?? 0}
               totalMark={totalMark}
@@ -96,10 +95,10 @@ export default async function HomeContainer() {
           </p>
         )}
 
-        <LogoIcon
+        {/* <LogoIcon
           className="absolute -right-1 -bottom-10 -z-10 text-accent opacity-10"
           width={150}
-        />
+        /> */}
       </div>
     </div>
   );

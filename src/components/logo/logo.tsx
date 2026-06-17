@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 
 export function LogoFull({ ...props }: React.ComponentProps<"svg">) {
@@ -254,5 +255,22 @@ export function LogoIcon({ ...props }: React.ComponentProps<"svg">) {
         // style={{ fill: "#3730a5" }}
       />
     </svg>
+  );
+}
+
+export function Logo2({
+  width = 150,
+  height = 80,
+}: {
+  height?: number;
+  width?: number;
+}) {
+  return (
+    <Image
+      width={width}
+      height={height}
+      src={"/images/brain_fest_2_logo.png"}
+      alt="Logo"
+    />
   );
 }

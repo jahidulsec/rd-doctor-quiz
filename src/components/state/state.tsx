@@ -7,7 +7,7 @@ const NoData = ({ className, message="No data", ...props }: React.ComponentProps
   return (
     <div
       className={cn(
-        "flex flex-col gap-1 text-muted-foreground/50 pointer-events-none my-3 justify-center items-center",
+        "flex flex-col gap-1 text-muted-foreground pointer-events-none my-3 justify-center items-center",
         className
       )}
       {...props}
