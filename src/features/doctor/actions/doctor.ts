@@ -70,6 +70,20 @@ export const addDoctor = async (prevState: unknown, formData: FormData) => {
 
     const data = result.data;
 
+    // check territory
+    const territory = await db.mio.findUnique({
+      where: { sap_territory_code: data.mio_id },
+    });
+
+    if (!territory) {
+      return {
+        error: null,
+        success: null,
+        toast: `Territory does not exists. Please contact our MIO`,
+        values: modifiedFormData,
+      };
+    }
+
     if (data.image) {
       await fs.mkdir("public/doctors", { recursive: true });
 

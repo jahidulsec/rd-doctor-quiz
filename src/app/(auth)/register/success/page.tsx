@@ -18,8 +18,8 @@ export default function SuccessPage() {
       <div className="relative w-20 aspect-square">
         <Image fill src={"/images/gratitude.png"} alt="" />
       </div>
-      <p className="text-center">
-        Thank You for Registering for The{" "}
+      <p className="text-center text-foreground max-w-70 text-balance">
+        Thank You for Registering for The{" "} 
         <strong className="text-primary">Brainfest Challenge</strong>
       </p>
     </div>

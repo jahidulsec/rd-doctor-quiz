@@ -75,7 +75,7 @@ const ImageInput = ({
           src={URL.createObjectURL(upload)}
           alt="upload"
           className={cn(
-            "rounded-full w-20 h-20 object-contain mt-3",
+            "rounded-full w-20 h-20 object-contain mt-3 bg-muted",
             imageClassName
           )}
         />
@@ -84,7 +84,7 @@ const ImageInput = ({
           width={200}
           height={200}
           src={defaultFile}
-          alt="upload"
+          alt=""
           className={cn(
             "rounded-full w-20 h-20 object-contain mt-3",
             imageClassName

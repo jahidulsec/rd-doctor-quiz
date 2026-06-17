@@ -11,7 +11,7 @@ const PasswordInput = ({ ...props }: React.ComponentProps<"input">) => {
     <div className="relative">
       <Input type={show ? "text" : "password"} {...props} />
       <div
-        className="absolute top-[50%] -translate-y-[50%] right-3 [&_svg]:size-4 cursor-pointer"
+        className="absolute top-[50%] -translate-y-[50%] right-3 [&_svg]:size-4 cursor-pointer text-foreground"
         onClick={() => setShow(!show)}
       >
         {show ? <EyeOff /> : <Eye />}

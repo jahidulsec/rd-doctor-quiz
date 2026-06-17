@@ -7,7 +7,7 @@ export default function NavRegister({
   ...props
 }: React.ComponentProps<"header">) {
   return (
-    <header className={"w-full border-b"} {...props}>
+    <header className={"w-full border-b bg-amber-100"} {...props}>
       <div
         className={cn(
           "flex justify-between items-center gap-5 container px-6 py-3 lg:p-0 mx-auto w-full",
