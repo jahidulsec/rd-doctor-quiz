@@ -1,16 +1,23 @@
 "use client";
 
-import { Form, FormItem } from "@/components/forms/form";
-import { Button } from "@/components/ui/button";
+import { Form } from "@/components/forms/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import React, { useActionState, useEffect } from "react";
+import React from "react";
 import { addDoctor, updateDoctor } from "../actions/doctor";
-import { ErrorMessage } from "@/components/text/error-message";
 import { toast } from "sonner";
 import { useRouter } from "@bprogress/next/app";
 import { ImageInput } from "@/components/input/image-input";
 import { doctor } from "@prisma/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { addDoctorSchema, updateDoctorSchema } from "@/schema/doctor";
+import { FormButton } from "@/components/button/button";
 
 export default function RegisterForm({
   doctor,
@@ -19,102 +26,131 @@ export default function RegisterForm({
   doctor?: doctor;
   onClose?: () => void;
 }) {
-  const [data, action, isPending] = useActionState(
-    doctor ? updateDoctor.bind(null, doctor.mobile) : addDoctor,
-    null,
-  );
+  const form = useForm({
+    resolver: zodResolver(
+      doctor?.mobile ? updateDoctorSchema : addDoctorSchema,
+    ),
+    defaultValues: {
+      password: process.env.NEXT_PUBLIC_DEFAULT_PASSWORD,
+      mobile: doctor?.mobile,
+      full_name: doctor?.full_name,
+      mio_id: doctor?.mio_id ?? "",
+    },
+  });
+
   const router = useRouter();
 
-  useEffect(() => {
-    if (data?.toast) {
-      toast.error(data.toast);
-    } else if (data?.success) {
-      toast.success(data.success);
-      if (doctor && onClose) {
-        onClose();
-      } else {
-        router.push("/register/success");
+  const image = form.watch("image");
+
+  const onSubmit = async (data: any) => {
+    const res = doctor?.mobile
+      ? await updateDoctor(doctor.mobile, data)
+      : await addDoctor(data);
+
+    toast[res.success ? "success" : "error"](res.message);
+
+    if (res.success) {
+      if (!doctor?.mobile) {
+        router.replace("/register/success");
       }
+      onClose?.();
     }
-  }, [data]);
+  };
 
   return (
-    <Form action={action}>
-      <FormItem>
-        <Label htmlFor="full_name">Full Name</Label>
-        <Input
+    <Form onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
+          control={form.control}
           name="full_name"
-          id="full_name"
-          placeholder="eg. Dr. John Doe"
-          defaultValue={
-            data?.values?.full_name.toString() ?? doctor?.full_name ?? undefined
-          }
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Full Name</FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                placeholder="eg. Dr. John Doe"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
         />
-        {data?.error && (
-          <ErrorMessage message={data.error.full_name?.[0] ?? ""} />
-        )}
-      </FormItem>
-      <FormItem>
-        <Label htmlFor="mobile">Mobile</Label>
-        <Input
+
+        <Controller
+          control={form.control}
           name="mobile"
-          id="mobile"
-          placeholder="eg. 01777888555"
-          defaultValue={
-            data?.values?.mobile.toString() ?? doctor?.mobile ?? undefined
-          }
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Mobile No.</FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                placeholder="eg. 01777888555"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
         />
-        {data?.error && <ErrorMessage message={data.error.mobile?.[0] ?? ""} />}
-      </FormItem>
-      {/* <FormItem>
-        <Label htmlFor="password">Password</Label>
-        <PasswordInput
-          name="password"
-          id="password"
-          placeholder="Enter at least 6 characters"
-          defaultValue={
-            data?.values?.password.toString() ?? doctor?.password ?? undefined
-          }
-        />
-        {data?.error && (
-          <ErrorMessage message={data.error.password?.[0] ?? ""} />
-        )}
-      </FormItem> */}
-      <input className="hidden" name="password" value={process.env.NEXT_PUBLIC_DEFAULT_PASSWORD} />
 
-      <FormItem className="col-span-1 md:col-span-3">
-        <Label>Image</Label>
-        <ImageInput
-          id="1"
-          imageClassName="w-30 h-30 rounded-md border"
-          width={100}
-          height={100}
-          type="file"
+        <Controller
+          control={form.control}
           name="image"
-          className="rounded-md"
-          defaultFile={
-            data?.values?.image ||
-            `/api/image/${doctor?.image?.replace("/", "")}` ||
-            undefined
-          }
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Image</FieldLabel>
+              <Input
+                type="file"
+                onChange={(e) => {
+                  if (e.target.files?.[0]) {
+                    field.onChange(e.target.files[0]);
+                  }
+                }}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
         />
-        {data?.error?.image && <ErrorMessage message={data.error.image[0]} />}
-      </FormItem>
 
-      <FormItem>
-        <Label htmlFor="mio_id">SAP Territory Code</Label>
-        <Input
+        {image && (
+          <ImageInput
+            id="1"
+            imageClassName="w-30 h-30 rounded-md border"
+            width={100}
+            height={100}
+            type="file"
+            name="image"
+            className="rounded-md"
+            defaultFile={URL.createObjectURL(image)}
+          />
+        )}
+
+        <Controller
+          control={form.control}
           name="mio_id"
-          id="mio_id"
-          placeholder="SAP territory code"
-          defaultValue={
-            data?.values?.mio_id.toString() ?? doctor?.mio_id ?? undefined
-          }
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>SAP Territory Code</FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                placeholder="Territory code"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
         />
-        {data?.error?.mio_id && <ErrorMessage message={data.error.mio_id[0]} />}
-      </FormItem>
+      </FieldGroup>
 
-      <Button disabled={isPending}>Register</Button>
+      <FormButton disabled={form.formState.isSubmitting}>Register</FormButton>
     </Form>
   );
 }
