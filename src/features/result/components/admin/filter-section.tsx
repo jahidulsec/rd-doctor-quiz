@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { mio } from "@prisma/client";
@@ -7,11 +7,24 @@ import { getTerritories } from "@/features/territory/lib/territory";
 
 export default function FilterSection() {
   return (
-    <Combobox
-      fetcher={(params) => getTerritories({ ...params }) as any}
-      paramName="sap_code"
-      getKey={(item: mio) => item.sap_territory_code}
-      getLabel={(item: mio) => `${item.area_name} (${item.sap_territory_code})`}
-    />
+    <>
+      <Combobox
+        fetcher={(params) => getTerritories({ ...params }) as any}
+        paramName="region_code"
+        placeholder="Region Code"
+        getKey={(item: mio) => item.region_code ?? ""}
+        getLabel={(item: mio) => `${item.region_name} (${item.region_code})`}
+      />
+
+      <Combobox
+        fetcher={(params) => getTerritories({ ...params }) as any}
+        paramName="sap_code"
+        placeholder="Territory Code"
+        getKey={(item: mio) => item.sap_territory_code}
+        getLabel={(item: mio) =>
+          `${item.area_name} (${item.sap_territory_code})`
+        }
+      />
+    </>
   );
 }
