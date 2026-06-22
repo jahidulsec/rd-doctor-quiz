@@ -55,7 +55,7 @@ export default function DownloadSection({ data }: { data: Rank[] }) {
         ) : (
           <Download className="size-4 mr-2" />
         )}
-        <span>Images (150)</span>
+        <span>Images</span>
       </Button>
     </>
   );
