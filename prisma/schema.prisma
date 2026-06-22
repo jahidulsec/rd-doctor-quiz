@@ -10,6 +10,8 @@ datasource db {
 model mio {
   sap_territory_code String   @id @db.VarChar(10)
   area_name          String   @db.VarChar(100)
+  region_name        String   @db.VarChar(255)
+  region_code        String?  @db.VarChar(6)
   doctor             doctor[]
 }
 
@@ -30,7 +32,7 @@ model doctor {
 
 model question {
   id             String          @id @db.VarChar(36)
-  title          String          @db.VarChar(100)
+  title          String          @db.VarChar(250)
   option_1       String?         @db.VarChar(100)
   option_2       String?         @db.VarChar(100)
   option_3       String?         @db.VarChar(100)
