@@ -10,20 +10,24 @@ import Link from "next/link";
 import React from "react";
 
 export default async function LeaderboardPage() {
-  const size = 50;
+  const size = 20;
 
   const authuser = await verifyAutuser();
   const quaters = await getQuaters({
     size: "1",
     page: "1",
-    sap_code: authuser?.mio_id
+    sap_code: authuser?.mio_id,
   });
-  const results = await getResults({ page: 1, size: size });
+  const results = await getResults({
+    page: 1,
+    size: size,
+    region_code: authuser?.region_code,
+  });
   const resultUser = await getResults({
     page: 1,
     size: 1,
     search: authuser?.id,
-    sap_code: authuser?.mio_id
+    region_code: authuser?.region_code,
   });
 
   return (

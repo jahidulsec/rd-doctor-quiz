@@ -5,7 +5,7 @@ import db from "../../../../db/db";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/data";
 
 export const getResults = async (searchParams: any) => {
-  const { page, size, search, quiz_date, sap_code } = await searchParams;
+  const { page, size, search, quiz_date, sap_code, region_code } = await searchParams;
   const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
 
@@ -17,6 +17,7 @@ export const getResults = async (searchParams: any) => {
       d.full_name,
       d.mobile,
       d.image,
+      d.mio_id,
       IFNULL((
         SELECT SUM(r.mark)
         FROM doctor_submit r
@@ -45,11 +46,16 @@ export const getResults = async (searchParams: any) => {
         ORDER BY total_mark DESC, is_participated DESC, total_duration ASC
       ) AS rank
     FROM doctor d
-    ${sap_code ? ` where d.mio_id='${sap_code}' ` : ""}
+    left join mio m on m.sap_territory_code=d.mio_id
+    where 1=1
+    ${sap_code ? ` and d.mio_id='${sap_code}' ` : ""}
+    ${region_code ? ` and m.region_code='${region_code}' ` : ""}
   )
   SELECT *
   FROM ranked_doctors
 `;
+
+console.log(baseQuery)
 
   const params: any[] = [];
 

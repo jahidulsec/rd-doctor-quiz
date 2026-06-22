@@ -1,9 +1,13 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { cn, formatDuration } from "@/lib/utils";
 import { Rank } from "@/types/rank";
 import { ChartNoAxesColumnDecreasing } from "lucide-react";
 import React from "react";
+import { getResults } from "../servers/result";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function LeaderboardSection({
   data,
@@ -52,11 +56,35 @@ const Card = ({
   props,
   className,
 }: { props: Rank } & React.ComponentProps<"div">) => {
+  const [tRank, setTRank] = React.useState<Rank[]>();
+  const [pending, startTransition] = React.useTransition();
+
+  React.useEffect(() => {
+    if (tRank) return;
+
+    const handleData = async () => {
+      const res = await getResults({
+        page: 1,
+        size: 1,
+        search: props.mobile,
+        sap_code: props.mio_id,
+      });
+
+      if (res.data) {
+        setTRank(res.data);
+      }
+    };
+
+    startTransition(() => {
+      handleData();
+    });
+  }, [props.mio_id]);
+
   return (
     <div
       className={cn(
         "bg-background p-4 rounded-md border border-primary/50 flex flex-col gap-3 @container/card",
-        className
+        className,
       )}
     >
       {/* top */}
@@ -84,8 +112,33 @@ const Card = ({
         </div>
       </div>
 
+      {/* territory rank */}
+      {pending ? (
+        <div className="flex justify-center items-center gap-3 min-h-5">
+          <Skeleton className="w-20 h-4" />
+          <Skeleton className="w-1 h-4" />
+          <Skeleton className="w-20 h-4" />
+        </div>
+      ) : (
+        <div className="flex justify-center items-center gap-3 border-t py-2 bg-primary-foreground ">
+          <div className="flex items-center gap-1 flex-wrap">
+            <p className="text-xs sm:text-sm text-foreground">Territory Code:</p>
+            <p className="text-xs sm:text-sm text-secondary-foreground">
+              {tRank?.[0]?.mio_id}
+            </p>
+          </div>
+          <Separator orientation="vertical" className="min-h-4" />
+          <div className="flex items-center gap-1 flex-wrap">
+            <p className="text-xs sm:text-sm text-foreground">Territory Rank:</p>
+            <p className="text-xs sm:text-sm text-secondary-foreground">
+              {tRank?.[0]?.rank}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* button */}
-      <div className="flex justify-center items-center border-t pt-2 ">
+      <div className="flex justify-center items-center border-t pt-2 -mt-3">
         <div className="">
           <div className="flex gap-3 gap-y-1 w-full items-center flex-wrap text-center">
             <div className="flex items-center gap-1">
