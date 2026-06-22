@@ -3,4 +3,5 @@ export interface AuthUser {
   full_name: string;
   role: "admin" | "doctor";
   mio_id?: string;
+  region_code?: string;
 }

@@ -65,6 +65,8 @@ export const addDoctor = async (data: AddDoctorSchemaType) => {
       full_name: user.full_name,
       role: "doctor",
       id: user.mobile,
+      mio_id: user.mio_id ?? '',
+      region_code: territory.region_code ?? ''
     });
 
     return apiResponse.single({
@@ -159,12 +161,20 @@ export const loginDoctor = async (prevState: unknown, formData: FormData) => {
       throw { message: "Incorrect Password" };
     }
 
+    // get territory details
+    const territory = await db.mio.findUnique({
+      where: {
+        sap_territory_code: doctor.mio_id ?? "",
+      },
+    });
+
     // create session
     await createSession({
       full_name: doctor.full_name,
       role: "doctor",
       id: doctor.mobile,
       mio_id: doctor.mio_id ?? "",
+      region_code: territory?.region_code ?? "",
     });
 
     return {
