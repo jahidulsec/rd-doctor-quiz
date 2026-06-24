@@ -90,7 +90,7 @@ const Card = ({
       {/* top */}
       <div className="flex justify-between items-center gap-3 ">
         {/* left */}
-        <div className="flex items-start gap-3 w-full flex-1">
+        <div className="flex items-center gap-3 w-full flex-1">
           <Avatar>
             <AvatarImage
               src={`/api/image/${props?.image?.replace("/", "")}`}
@@ -102,7 +102,7 @@ const Card = ({
 
           <div className="flex flex-col gap-1 w-full">
             <h2 className="font-semibold">{props.full_name}</h2>
-            <p className="text-muted-foreground text-xs">{props.mobile}</p>
+            {/* <p className="text-muted-foreground text-xs">{props.mobile}</p> */}
           </div>
         </div>
 
