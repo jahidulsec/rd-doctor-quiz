@@ -1,18 +1,60 @@
 import { Logo2 } from "@/components/logo/logo";
 import { Button } from "@/components/ui/button";
 import RegisterForm from "@/features/doctor/components/register-form";
-import { BadgeInfo } from "lucide-react";
+import { format } from "date-fns";
+import { ArrowLeft, BadgeInfo } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 export default function RegisterPage() {
   const activeRegister = process.env.NEXT_PUBLIC_REGISTER_ACTIVE;
 
+  const registionStartFrom = new Date(2026, 6, 5, 12, 0, 0); // 2026-07-05 12:00 AM
+  const registionEndAt = new Date(2026, 6, 9, 12, 0, 0); // 2026-07-09 12:00 AM
+  const today = new Date();
+
   if (activeRegister === "0")
     return (
       <div className="flex flex-col justify-center items-center gap-5">
         <BadgeInfo size={100} className="text-primary/50 fill-primary/40" />
-        <p className="text-muted-foreground">Registration has Ended!</p>
+        <p className="text-foreground">Registration has Ended!</p>
+        <Button asChild>
+          <Link href={"/login"}>
+            <ArrowLeft /> Go Back
+          </Link>
+        </Button>
+      </div>
+    );
+
+  if (today.getTime() < registionStartFrom.getTime())
+    return (
+      <div className="flex flex-col justify-center items-center gap-5">
+        <BadgeInfo size={100} className="text-primary/50 fill-primary/40" />
+        <p className="text-foreground max-w-50 text-center">
+          Registration will start from{" "}
+          <strong>
+            {format(registionStartFrom, "dd LLL, yyyy - hh:mm aaa")}
+          </strong>
+          !
+        </p>
+        <Button asChild>
+          <Link href={"/login"}>
+            <ArrowLeft /> Go Back
+          </Link>
+        </Button>
+      </div>
+    );
+
+  if (today.getTime() > registionEndAt.getTime())
+    return (
+      <div className="flex flex-col justify-center items-center gap-5">
+        <BadgeInfo size={100} className="text-primary/50 fill-primary/40" />
+        <p className="text-foreground">Registration has Ended!</p>
+        <Button asChild>
+          <Link href={"/login"}>
+            <ArrowLeft /> Go Back
+          </Link>
+        </Button>
       </div>
     );
 
