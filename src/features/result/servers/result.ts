@@ -5,7 +5,8 @@ import db from "../../../../db/db";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "@/lib/data";
 
 export const getResults = async (searchParams: any) => {
-  const { page, size, search, quiz_date, sap_code, region_code } = await searchParams;
+  const { page, size, search, quiz_date, sap_code, region_code } =
+    await searchParams;
   const validatedSize = size ? Number(size) : DEFAULT_PAGE_SIZE;
   const validatedPage = page ? Number(page) : DEFAULT_PAGE;
 
@@ -54,8 +55,6 @@ export const getResults = async (searchParams: any) => {
   SELECT *
   FROM ranked_doctors
 `;
-
-console.log(baseQuery)
 
   const params: any[] = [];
 

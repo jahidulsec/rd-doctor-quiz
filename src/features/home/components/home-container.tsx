@@ -38,6 +38,18 @@ export default async function HomeContainer() {
 
   const quizCount = quizzes?.count ?? 0;
 
+  const startTime = new Date();
+  const endTime = new Date();
+  startTime.setHours(10);
+  startTime.setMinutes(0);
+  startTime.setSeconds(0);
+
+  endTime.setHours(11);
+  endTime.setMinutes(0);
+  endTime.setSeconds(0);
+
+  const now = new Date();
+
   return (
     <div className="flex flex-col gap-4">
       {/* banner */}
@@ -58,6 +70,15 @@ export default async function HomeContainer() {
         </h1>
 
         {quaters.count !== 0 &&
+          quaters.data[0].start_date < new Date() &&
+          quaters.data[0].end_date > new Date() && (
+            <p className="text-muted text-sm font-semibold text-center">
+              Daily quiz participation time <br />{" "}
+              {format(startTime, "hh:mm aaa")} - {format(endTime, "hh:mm aaa")}
+            </p>
+          )}
+
+        {quaters.count !== 0 &&
         quaters.data[0].start_date < new Date() &&
         quaters.data[0].end_date > new Date() ? (
           <>
@@ -69,7 +90,9 @@ export default async function HomeContainer() {
               totalMark={totalMark}
             />
 
-            {quizCount > 0 ? (
+            {quizCount > 0 &&
+            now.getTime() >= startTime.getTime() &&
+            now.getTime() <= endTime.getTime() ? (
               Number(submissionResponse?.count) > 0 ? null : (
                 <Button
                   variant={"outline"}
